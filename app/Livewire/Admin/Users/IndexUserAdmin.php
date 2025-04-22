@@ -4,12 +4,11 @@ namespace App\Livewire\Admin\Users;
 
 use App\Models\User;
 use Livewire\Component;
-use Livewire\Attributes\On;
 use Livewire\Attributes\Url;
 use Livewire\WithPagination;
 use Livewire\Attributes\Layout;
 
-class IndexUser extends Component
+class IndexUserAdmin extends Component
 {
     use WithPagination;
 
@@ -67,7 +66,7 @@ class IndexUser extends Component
     {
         $users = User::query()
             ->whereHas('roles', function ($query) {
-                $query->where('name', 'user');
+                $query->where('name', 'admin');
             })
             ->when($this->search, function ($query) {
                 $query->where(function ($query) {
@@ -75,10 +74,11 @@ class IndexUser extends Component
                         ->orWhere('email', 'like', '%' . $this->search . '%');
                 });
             })
+
             ->orderBy($this->sortField, $this->sortDirection)
             ->paginate($this->perPage);
 
-        return view('livewire.admin.users.index-user', [
+        return view('livewire.admin.users.index-user-admin', [
             'users' => $users,
             'search' => $this->search,
             'sortField' => $this->sortField,

@@ -2,10 +2,19 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Livewire\Admin\Users\IndexUser;
-use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Livewire\Admin\Products\Categories\CreateProductCategory;
+use App\Livewire\Admin\Products\Categories\EditProductCategory;
+use App\Livewire\Admin\Products\Categories\IndexProductCategory;
+use App\Livewire\Admin\Products\CreateProduct;
+use App\Livewire\Admin\Products\EditProduct;
+use App\Livewire\Admin\Products\IndexProduct;
+use App\Livewire\Admin\Users\CreateUser;
+use App\Livewire\Admin\Users\CreateUserAdmin;
+use App\Livewire\Admin\Users\EditUser;
+use App\Livewire\Admin\Users\IndexUserAdmin;
 
-Route::middleware(['auth'])
+Route::middleware(['web', 'auth'])
     ->name('admin.')
     ->group(function () {
         Route::get('/dashboard', [DashboardController::class, 'index'])
@@ -13,4 +22,27 @@ Route::middleware(['auth'])
 
         Route::get('/users', IndexUser::class)
             ->name('users.index');
+        Route::get('/users/create', CreateUser::class)
+            ->name('users.create');
+        Route::get('/users/{user}/edit', EditUser::class)
+            ->name('users.edit');
+
+        Route::get('/admins', IndexUserAdmin::class)
+            ->name('admins.index');
+        Route::get('/admins/create', CreateUserAdmin::class)
+            ->name('admins.create');
+
+        Route::get('/products', IndexProduct::class)
+            ->name('products.index');
+        Route::get('/products/create', CreateProduct::class)
+            ->name('products.create');
+        Route::get('/products/{product}/edit', EditProduct::class)
+            ->name('products.edit');
+
+        Route::get('/products/categories', IndexProductCategory::class)
+            ->name('products.categories.index');
+        Route::get('/products/categories/create', CreateProductCategory::class)
+            ->name('products.categories.create');
+        Route::get('/products/categories/{category}/edit', EditProductCategory::class)
+            ->name('products.categories.edit');
     });

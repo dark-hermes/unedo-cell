@@ -1,9 +1,9 @@
 <div>
-    <livewire:admin.partials.page-heading title="Daftar Akun Buyer" subtitle="" :breadcrumbs="[['label' => 'Users', 'href' => '/admins/users']]" />
+    <livewire:admin.partials.page-heading title="Daftar Akun Admin" subtitle="" :breadcrumbs="[['label' => 'Admins', 'href' => '/admin/admins']]" />
 
     <div class="row">
         <div class="col-12 col-md-6">
-            <a href="{{ route('admin.users.create') }}" class="btn btn-primary"><i class="bi bi-plus"></i>
+            <a href="{{ route('admin.admins.create') }}" class="btn btn-primary"><i class="bi bi-plus"></i>
                 Tambah Akun</a>
         </div>
         <div class="col-12 col-md-6 d-flex justify-content-md-end align-items-center">

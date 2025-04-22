@@ -16,6 +16,9 @@ import Toastify from "toastify-js";
 import "toastify-js/src/toastify.css";
 window.Toastify = Toastify;
 
+import Swal from 'sweetalert2';
+window.Swal = Swal;
+
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
  * for events that are broadcast by Laravel. Echo and event broadcasting

@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -28,7 +30,29 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email',
+            'phone' => 'nullable|string|max:16|unique:users,phone',
+            'password' => 'required|string|min:8|confirmed',
+        ]);
+
+        try {
+            $user = User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'phone' => $request->phone,
+                'password' => Hash::make($request->password),
+                'is_active' => $request->is_active,
+            ]);
+
+            $user->assignRole('user');
+
+            return redirect()->route('admin.users.index')->with('success', 'User created successfully!');
+        } catch (\Throwable $e) {
+            report($e);
+            return redirect()->back()->with('error', 'Failed to create user.');
+        }
     }
 
     /**

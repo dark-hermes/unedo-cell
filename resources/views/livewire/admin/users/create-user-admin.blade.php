@@ -1,5 +1,5 @@
 <div>
-    <livewire:admin.partials.page-heading title="Buat Akun Buyer" subtitle="" :breadcrumbs="[['label' => 'Users', 'href' => '/users'], ['label' => 'Create']]" />
+    <livewire:admin.partials.page-heading title="Buat Akun Admin" subtitle="" :breadcrumbs="[['label' => 'Admins', 'href' => '/admin/admins'], ['label' => 'Create']]" />
 
     <section class="section">
         <div class="card">
@@ -61,7 +61,7 @@
 
                             <div class="button-group mt-4">
                                 <button type="button" wire:click="store" class="btn btn-primary">Simpan</button>
-                                <a href="{{ route('admin.users.index') }}" class="btn btn-secondary">Kembali</a>
+                                <a href="{{ route('admin.admins.index') }}" class="btn btn-secondary">Kembali</a>
                             </div>
                         </form>
                     </div>
