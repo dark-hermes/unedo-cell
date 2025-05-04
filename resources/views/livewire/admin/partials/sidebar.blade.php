@@ -46,6 +46,9 @@
                 <x-sidebar-item href="{{ route('admin.dashboard.index') }}" icon="bi bi-speedometer" label="Dashboard"
                     active="{{ request()->is('admin/dashboard') }}" />
 
+                <x-sidebar-item href="{{ route('admin.home-contents.index') }}" icon="bi bi-speedometer"
+                    label="Konten Beranda" active="{{ request()->is('admin/home-contents') }}" />
+
 
                 <x-sidebar-item href="#" icon="bi bi-earbuds" label="Produk" hasSub="true"
                     active="{{ request()->is('admin/products*') }}">

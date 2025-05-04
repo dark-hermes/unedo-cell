@@ -15,6 +15,9 @@ use App\Livewire\Admin\Products\IndexStockOutput;
 use App\Livewire\Admin\Products\ManageStockEntry;
 use App\Livewire\Admin\Products\ManageStockOutput;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Livewire\Admin\HomeContents\EditHomeContent;
+use App\Livewire\Admin\HomeContents\IndexHomeContent;
+use App\Livewire\Admin\HomeContents\CreateHomeContent;
 use App\Livewire\Admin\Products\Categories\EditProductCategory;
 use App\Livewire\Admin\Products\Categories\IndexProductCategory;
 use App\Livewire\Admin\Products\Categories\CreateProductCategory;
@@ -24,6 +27,13 @@ Route::middleware(['web', 'auth'])
     ->group(function () {
         Route::get('/dashboard', [DashboardController::class, 'index'])
             ->name('dashboard.index');
+
+        Route::get('/home-contents', IndexHomeContent::class)
+            ->name('home-contents.index');
+        Route::get('/home-contents/create', CreateHomeContent::class)
+            ->name('home-contents.create');
+        Route::get('/home-contents/{homeContent}/edit', EditHomeContent::class)
+            ->name('home-contents.edit');
 
         Route::get('/users', IndexUser::class)
             ->name('users.index');
