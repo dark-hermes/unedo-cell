@@ -1,17 +1,18 @@
-document.addEventListener('DOMContentLoaded', function () {
+// document.addEventListener('DOMContentLoaded', function () {
 
     // Swal biasa
-    Livewire.on('swal', ({
-        title,
-        text,
-        icon
-    }) => {
+    Livewire.on('swal', e => {
+        const data = Array.isArray(e) ? e[0] : e;
         Swal.fire({
-            title,
-            text,
-            icon
-        });
-    });
+            title: data.title,
+            text: data.text,
+            icon: data.icon,
+            confirmButtonColor: data.confirmButtonColor || '#f0c034',
+            confirmButtonText: data.confirmButtonText || 'OK',
+            cancelButtonText: data.cancelButtonText || 'Batal'
+        })
+    }
+    );
 
     // Swal konfirmasi
 
@@ -30,7 +31,4 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-
-
-
-});
+// });

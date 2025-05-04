@@ -84,6 +84,9 @@ class ProductSeeder extends Seeder
                 "buy_price" => 11500,
                 "min_stock" => 1,
                 "description" => fake()->paragraph(rand(1, 3)),
+                'show' => true,
+                'stock_entry' => rand(10,100),
+                'image' => 'products/orivivo.jpg',
             ],
             [
                 "sku" => "HS-U19112",
@@ -93,6 +96,9 @@ class ProductSeeder extends Seeder
                 "buy_price" => 10000,
                 "min_stock" => 1,
                 "description" => fake()->paragraph(rand(1, 3)),
+                'show' => true,
+                'stock_entry' => rand(10,100),
+                'image' => 'products/macaron.jpg',
             ],
             [
                 "sku" => "HS-PIO-01",
@@ -102,6 +108,9 @@ class ProductSeeder extends Seeder
                 "buy_price" => 22000,
                 "min_stock" => 1,
                 "description" => fake()->paragraph(rand(1, 3)),
+                'show' => true,
+                'stock_entry' => rand(10,100),
+                'image' => 'products/pio10.jpeg',
             ],
             [
                 "sku" => "CH-S9866",
@@ -111,6 +120,9 @@ class ProductSeeder extends Seeder
                 "buy_price" => 35000,
                 "min_stock" => 1,
                 "description" => fake()->paragraph(rand(1, 3)),
+                'show' => true,
+                'stock_entry' => rand(10,100),
+                'image' => 'products/chs10s.jpeg',
             ],
             [
                 "sku" => "CH-SV 9072",
@@ -120,6 +132,9 @@ class ProductSeeder extends Seeder
                 "buy_price" => 30000,
                 "min_stock" => 1,
                 "description" => fake()->paragraph(rand(1, 3)),
+                'show' => true,
+                'stock_entry' => rand(10,100),
+                'image' => 'products/vooc.jpg',
             ],
             [
                 "sku" => "CH-SV9854",
@@ -129,11 +144,13 @@ class ProductSeeder extends Seeder
                 "buy_price" => 18000,
                 "min_stock" => 1,
                 "description" => fake()->paragraph(rand(1, 3)),
+                'show' => true,
+                'image' => 'products/vooc4a.jpeg',
             ],
         ];
 
         foreach ($products as $product) {
-            Product::create([
+            $createdProduct = Product::create([
                 "sku" => $product["sku"],
                 "name" => $product["name"],
                 "description" => $product["description"],
@@ -141,7 +158,18 @@ class ProductSeeder extends Seeder
                 "sale_price" => $product["sale_price"],
                 "buy_price" => $product["buy_price"],
                 "min_stock" => $product["min_stock"],
+                "show" => $product["show"] ?? false,
+                "image" => $product["image"] ?? null,
             ]);
+
+            if (isset($product['stock_entry'])) {
+                $createdProduct->stockEntries()->create([
+                    'user_id' => 1,
+                    'quantity' => $product['stock_entry'],
+                    'source' => 'purchase',
+                    'received_at' => now(),
+                ]);
+            }
         }
     }
 }

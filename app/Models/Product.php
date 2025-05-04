@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Cviebrock\EloquentSluggable\Sluggable;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
+use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Product extends Model
@@ -22,6 +23,7 @@ class Product extends Model
         'min_stock',
         'weight',
         'unit',
+        'show',
         'category_id',
     ];
 
@@ -52,6 +54,7 @@ class Product extends Model
         return $this->stockEntries()->sum('quantity') - $this->stockOutputs()->sum('quantity');
     }
 
+
     public function category()
     {
         return $this->belongsTo(ProductCategory::class, 'category_id');
@@ -65,6 +68,30 @@ class Product extends Model
     public function stockOutputs()
     {
         return $this->hasMany(StockOutput::class);
+    }
+
+    public function scopeWithCurrentStock($query)
+    {
+        return $query->select('products.*')
+            ->selectRaw('
+            (SELECT COALESCE(SUM(quantity), 0) FROM stock_entries WHERE product_id = products.id) as entries_sum,
+            (SELECT COALESCE(SUM(quantity), 0) FROM stock_outputs WHERE product_id = products.id) as outputs_sum,
+            (SELECT COALESCE(SUM(quantity), 0) FROM stock_entries WHERE product_id = products.id) - 
+            (SELECT COALESCE(SUM(quantity), 0) FROM stock_outputs WHERE product_id = products.id) as current_stock
+        ');
+    }
+
+    public function scopeIsInWishlist($query)
+    {
+        $userId = Auth::id();
+        return $this->wishlists()
+            ->where('user_id', $userId)
+            ->exists();
+    }
+
+    public function wishlists()
+    {
+        return $this->hasMany(ProductWishlist::class);
     }
 
     /**

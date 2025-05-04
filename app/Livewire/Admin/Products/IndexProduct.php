@@ -23,6 +23,25 @@ class IndexProduct extends Component
         $this->resetPage();
     }
 
+    public function toggleStatus($productId)
+    {
+        $product = Product::find($productId);
+
+        if ($product) {
+            $product->update(['show' => !$product->show]);
+
+            $this->dispatch('show-toast', [
+                'message' => $product->show ? 'Produk ditampilkan!' : 'Produk disembunyikan!',
+                'type' => 'success',
+            ]);
+        } else {
+            $this->dispatch('show-toast', [
+                'message' => 'Produk tidak ditemukan!',
+                'type' => 'error',
+            ]);
+        }
+    }
+
     public function deleteProduct($productId)
     {
         $product = Product::find($productId);

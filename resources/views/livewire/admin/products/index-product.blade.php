@@ -34,6 +34,7 @@
                                 <th>Harga Diskon</th>
                                 <th>Min. Stok</th>
                                 <th>Stok</th>
+                                <th>Status</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
@@ -66,6 +67,14 @@
                                         @else
                                             {{ $product->stock }}
                                         @endif
+                                    </td>
+                                    <td>
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox"
+                                                wire:change="toggleStatus({{ $product->id }})"
+                                                @checked($product->show) role="switch"
+                                                id="switch-{{ $product->id }}">
+                                        </div>
                                     </td>
                                     <td>
                                         <div class="dropdown">

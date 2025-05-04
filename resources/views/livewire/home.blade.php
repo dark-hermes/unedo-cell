@@ -1,6 +1,14 @@
 <div>
     <section id="hero" class="hero section dark-background">
-        <!-- Konten hero section -->
+        <img src="{{ $banner->image_url }}" alt="" data-aos="fade-in">
+	
+        <div class="container">
+          <h2 data-aos="fade-up" data-aos-delay="100">Shopping Today,<br>Shining Tomorrow</h2>
+          <p data-aos="fade-up" data-aos-delay="200">Unedo Cell siap memenuhi kebutuhanmu</p>
+          <div class="d-flex mt-4" data-aos="fade-up" data-aos-delay="300">
+            <a href="products" class="btn-get-started">Shop Now</a>
+          </div>
+        </div>
     </section>
 
     <!-- Content page -->

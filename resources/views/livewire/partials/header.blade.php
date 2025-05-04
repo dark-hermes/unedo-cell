@@ -15,8 +15,8 @@
                             <a href="/">Beranda</a>
                         </li>
 
-                        <li class="{{ request()->is('products') ? 'active-menu' : '' }}">
-                            <a href="{{ route('home') }}">Belanja</a>
+                        <li class="{{ request()->is('shop') ? 'active-menu' : '' }}">
+                            <a href="{{ route('shop.index') }}">Belanja</a>
                         </li>
 
                         <li class="{{ request()->is('reparation') ? 'active-menu' : '' }}">
@@ -36,12 +36,12 @@
                     </div>
                 
                     {{-- <a href="{{ route('home') }}" class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti" data-notify="{{ Livewire::get('cart-count') }}"> --}}
-                        <a href="{{ route('home') }}" class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti">
+                        <a href="{{ route('cart.index') }}" class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti">
                         <i class="zmdi zmdi-shopping-cart"></i>
                     </a>
                 
                     {{-- <a href="{{ route('wishlists') }}" class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti" data-notify="{{ Livewire::get('wishlist-count') }}"> --}}
-                        <a href="{{ route('home') }}" class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti">
+                        <a href="{{ route('wishlist.index') }}" class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti">
                         <i class="zmdi zmdi-favorite-outline"></i>
                     </a>
                     <a href="{{ route('home') }}" class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11">
@@ -58,7 +58,8 @@
     <div class="wrap-header-mobile bg-dark">
         <!-- Logo moblie -->		
         <div class="logo-mobile">
-            <a href="/"><img src="images/png2.png" alt="IMG-LOGO"></a>
+            {{-- <a href="/"><img src="images/png2.png" alt="IMG-LOGO"></a> --}}
+            <a href="{{ route('home') }}"><img src="{{ asset('images/png2.png') }}" alt="IMG-LOGO"></a>
         </div>
 
         <!-- Icon header -->
@@ -115,7 +116,7 @@
     <div class="modal-search-header flex-c-m trans-04 js-hide-modal-search">
         <div class="container-search-header">
             <button class="flex-c-m btn-hide-modal-search trans-04 js-hide-modal-search">
-                <img src="images/icons/icon-close2.png" alt="CLOSE">
+                <img src="{{ asset('images/icons/icon-close2.png') }}" alt="CLOSE">
             </button>
 
             <form class="wrap-search-header flex-w p-l-15">

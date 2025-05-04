@@ -15,7 +15,7 @@ class EditProduct extends Component
     use WithFileUploads;
 
     public Product $product;
-    public $name, $description, $price, $discount, $min_stock, $category_id;
+    public $name, $description, $sale_price, $buy_price, $discount, $min_stock, $category_id;
     public $newImage;
     public $showPhotoInput = false;
 
@@ -23,7 +23,8 @@ class EditProduct extends Component
     {
         $this->product = $product;
         $this->name = $product->name;
-        $this->price = $product->price;
+        $this->sale_price = $product->sale_price;
+        $this->buy_price = $product->buy_price;
         $this->discount = $product->discount;
         $this->min_stock = $product->min_stock;
         $this->category_id = $product->category_id;
@@ -33,7 +34,7 @@ class EditProduct extends Component
     public function updatedNewImage()
     {
         $this->validate([
-            'newImage' => 'image|max:1024',
+            'newImage' => 'image|max:2048',
         ]);
     }
 
@@ -49,12 +50,13 @@ class EditProduct extends Component
     {
         return [
             'name' => 'required|string|max:255',
-            'price' => 'required|numeric|min:0',
+            'sale_price' => 'required|numeric|min:0',
+            'buy_price' => 'required|numeric|min:0',
             'discount' => 'nullable|numeric|min:0|max:100',
             'min_stock' => 'required|numeric|min:0',
             'category_id' => 'required|exists:product_categories,id',
             'description' => 'nullable|string',
-            'newImage' => 'nullable|image|max:1024',
+            'newImage' => 'nullable|image|max:2048',
         ];
     }
 
@@ -73,7 +75,8 @@ class EditProduct extends Component
 
         $this->product->update([
             'name' => $this->name,
-            'price' => $this->price,
+            'sale_price' => $this->sale_price,
+            'buy_price' => $this->buy_price,
             'discount' => $this->discount,
             'min_stock' => $this->min_stock,
             'category_id' => $this->category_id,

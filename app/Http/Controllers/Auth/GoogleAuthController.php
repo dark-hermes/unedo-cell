@@ -31,18 +31,17 @@ class GoogleAuthController extends Controller
 
                 Auth::login($user);
 
-                return redirect()->route('admin.dashboard.index')->with('success', 'Welcome! You have successfully logged in with Google.');
+                return redirect()->route('home')->with('success', 'Welcome! You have successfully logged in with Google.');
             }
 
             else {
                 // If the user exists, log them in
                 Auth::login($user);
 
-                return redirect()->route('admin.dashboard.index')->with('success', 'Welcome back! You have successfully logged in with Google.');
+                return redirect()->route('home')->with('success', 'Welcome back! You have successfully logged in with Google.');
             }
         } catch (\Exception $e) {
-            // return redirect()->route('login')->withErrors(['error' => 'Failed to authenticate with Google.']);
-            dd($e->getMessage());
+            return redirect()->route('login')->withErrors(['error' => 'Failed to authenticate with Google.']);
         }
     }
 }

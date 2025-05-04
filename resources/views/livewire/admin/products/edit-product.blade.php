@@ -27,9 +27,15 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="price">Harga</label>
-                        <input wire:model.defer="price" id="price" type="number" step="0.01" class="form-control @error('price') is-invalid @enderror" value="{{ old('price', $product->price) }}">
-                        @error('price')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                        <label for="sale_price">Harga Jual</label>
+                        <input wire:model.defer="sale_price" id="sale_price" type="number" step="0.01" class="form-control @error('sale_price') is-invalid @enderror" value="{{ old('sale_price', $product->sale_price) }}">
+                        @error('sale_price')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                    </div>
+
+                    <div class="form-group">
+                        <label for="buy_price">Harga Beli</label>
+                        <input wire:model.defer="buy_price" id="buy_price" type="number" step="0.01" class="form-control @error('buy_price') is-invalid @enderror" value="{{ old('buy_price', $product->buy_price) }}">
+                        @error('buy_price')<div class="invalid-feedback">{{ $message }}</div>@enderror
                     </div>
 
                     <div class="form-group">
