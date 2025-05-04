@@ -28,8 +28,10 @@
                                 <th>Nama</th>
                                 <th>Kategori</th>
                                 <th>SKU</th>
-                                <th>Harga</th>
+                                <th>Harga Jual</th>
+                                <th>Harga Beli</th>
                                 <th>Diskon (%)</th>
+                                <th>Harga Diskon</th>
                                 <th>Min. Stok</th>
                                 <th>Stok</th>
                                 <th>Aksi</th>
@@ -48,26 +50,36 @@
                                     <td>{{ $product->category->name ?? '-' }}</td>
                                     <td>{{ $product->sku }}</td>
                                     <td>
-                                        @if ($product->discount > 0)
-                                            <span class="text-danger text-decoration-line-through">
-                                                Rp {{ number_format($product->price, 0, ',', '.') }}
-                                            </span>
-                                            <br>
-                                            <strong>Rp {{ number_format($product->price_after_discount, 0, ',', '.') }}</strong>
-                                        @else
-                                            <strong>Rp {{ number_format($product->price, 0, ',', '.') }}</strong>
-                                        @endif
+                                        Rp{{ number_format($product->sale_price, 0, ',', '.') }}
+                                    </td>
+                                    <td>
+                                        Rp{{ number_format($product->buy_price, 0, ',', '.') }}
                                     </td>
                                     <td>{{ $product->discount ?? 0 }}%</td>
-                                    <td>{{ $product->minimum_stock ?? 0 }}</td>
-                                    <td>0</td> {{-- Placeholder stok --}}
                                     <td>
-                                        <a href="{{ route('admin.products.edit', ['product' => $product->id]) }}" class="btn btn-warning">
-                                            Edit
-                                        </a>
-                                        <a href="#" class="btn btn-danger" onclick="confirmDelete({{ $product->id }})">
-                                            Hapus
-                                        </a>
+                                        Rp{{ number_format($product->price_after_discount, 0, ',', '.') }}
+                                    </td>
+                                    <td>{{ $product->min_stock ?? 0 }}</td>
+                                    <td>
+                                        @if ($product->stock <= $product->min_stock)
+                                            <span class="badge bg-danger">{{ $product->stock }}</span>
+                                        @else
+                                            {{ $product->stock }}
+                                        @endif
+                                    </td>
+                                    <td>
+                                        <div class="dropdown">
+                                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                                <i class="bi bi-three-dots"></i>
+                                            </button>
+                                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton" role="menu">
+                                                <li><a class="dropdown-item" href="{{ route('admin.products.edit', ['product' => $product->id]) }}">Edit Produk</a></li>
+                                                <li><a class="dropdown-item" href="{{ route('admin.products.history-stock.index', ['product' => $product->id]) }}">Riwayat Stok</a></li>
+                                                <li><a class="dropdown-item" href="{{ route('admin.products.stock-entries.index', ['product' => $product->id]) }}">Stok Masuk</a></li>
+                                                <li><a class="dropdown-item" href="{{ route('admin.products.stock-outputs.index', ['product' => $product->id]) }}">Stok Keluar</a></li>
+                                                <li><a class="dropdown-item text-danger" href="#" onclick="confirmDelete({{ $product->id }})">Delete</a></li>
+                                            </ul>
+                                        </div>
                                     </td>
                                 </tr>
                             @endforeach
@@ -84,6 +96,7 @@
 </div>
 
 @push('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         function confirmDelete(productId) {
             Swal.fire({
@@ -99,5 +112,6 @@
                 }
             });
         }
+        
     </script>
 @endpush

@@ -7,7 +7,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ $title ?? 'Admin' }}</title>
     <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
-    @vite(['resources/admin/css/app.css', 'resources/admin/css/app-dark.css', 'resources/admin/js/app.js', 'resources/js/app.js'])
+    @vite(['resources/admin/css/app.css', 'resources/admin/css/app-dark.css', 'resources/js/app.js', 'resources/admin/js/app.js'])
     @livewireStyles
 </head>
 

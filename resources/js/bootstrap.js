@@ -19,6 +19,9 @@ window.Toastify = Toastify;
 import Swal from 'sweetalert2';
 window.Swal = Swal;
 
+import { createPopper } from '@popperjs/core';
+window.createPopper = createPopper;
+
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
  * for events that are broadcast by Laravel. Echo and event broadcasting

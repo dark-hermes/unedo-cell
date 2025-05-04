@@ -16,39 +16,72 @@ class ProductCategorySeeder extends Seeder
         // $categories = ["Case", "Charger", "Headset", "Powerbank", "Screen Protector", "Tempered Glass", "USB Cable"];
         $categories = [
             [
-                "name" => "Case",
-                "code" => "CSE",
+                "name" => "Headset",
+                "code" => "HS",
+                "image" => "product_categories/headset.png",
             ],
             [
                 "name" => "Charger",
-                "code" => "CHR",
+                "code" => "CH",
+                "image" => "product_categories/charger.png",
             ],
             [
-                "name" => "Headset",
-                "code" => "HST",
+                "name" => "Voucher Smartfren",
+                "code" => "S",
+                "image" => "products/voucher_smartfren.png",
             ],
             [
-                "name" => "Powerbank",
-                "code" => "PBK",
+                "name" => "Voucher XL",
+                "code" => "X",
+                "image" => "products/voucher_xl.png",
             ],
             [
-                "name" => "Screen Protector",
-                "code" => "SPT",
+                "name" => "Kartu Telkomsel",
+                "code" => "TK",
+                "image" => "products/kartu_telkomsel.png",
             ],
             [
-                "name" => "Tempered Glass",
-                "code" => "TGL",
+                "name" => "Voucher Telkomsel",
+                "code" => "T",
+                "image" => "products/voucher_telkomsel.png",
             ],
             [
-                "name" => "USB Cable",
-                "code" => "USBC",
-            ]
+                "name" => "Kartu Smartfren",
+                "code" => "SK",
+                "image" => "products/kartu_smartfren.jpg",
+            ],
+            [
+                "name" => "Kartu XL",
+                "code" => "XK",
+                "image" => "products/kartu_xl.png",
+            ],
+            [
+                "name" => "Voucher ByU",
+                "code" => "B",
+                "image" => "products/voucher_byu.png",
+            ],
+            [
+                "name" => "Kartu ByU",
+                "code" => "BK",
+                "image" => "products/kartu_byu.png",
+            ],
+            [
+                "name" => "Kartu Axis",
+                "code" => "AK",
+                "image" => "products/kartu_axis.png",
+            ],
+            [
+                "name" => "Voucher Axis",
+                "code" => "A",
+                "image" => "products/voucher_axis.png",
+            ],
         ];
 
         foreach ($categories as $category) {
             ProductCategory::create([
                 "name" => $category["name"],
                 "code" => $category["code"],
+                "image" => $category["image"] ?? null,
                 "description" => fake()->sentence(rand(2, 5)),
             ]);
         }

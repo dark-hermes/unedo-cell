@@ -43,22 +43,41 @@
             <ul class="menu">
                 <li class="sidebar-title">Menu</li>
 
-                <x-sidebar-item href="index.html" icon="bi bi-speedometer" label="Dashboard"
+                <x-sidebar-item href="{{ route('admin.dashboard.index') }}" icon="bi bi-speedometer" label="Dashboard"
                     active="{{ request()->is('admin/dashboard') }}" />
-                <x-sidebar-item href="#" icon="bi bi-person" label="Pengguna" hasSub="true" active="{{ request()->is('admin/users*') || request()->is('admin/admins') }}">
+
+
+                <x-sidebar-item href="#" icon="bi bi-earbuds" label="Produk" hasSub="true"
+                    active="{{ request()->is('admin/products*') }}">
                     <x-slot name="submenu">
                         <x-sidebar-sub-item :items="[
-                            ['href' => route('admin.users.index'), 'label' => 'Buyer', 'active' => request()->is('admin/users*')],
-                            ['href' => route('admin.admins.index'), 'label' => 'Admin', 'active' => request()->is('admin/admins')],
+                            [
+                                'href' => route('admin.products.index'),
+                                'label' => 'Produk',
+                                'active' => request()->is('admin/products*'),
+                            ],
+                            [
+                                'href' => route('admin.products.categories.index'),
+                                'label' => 'Kategori',
+                                'active' => request()->is('admin/products/categories*'),
+                            ],
                         ]" />
                     </x-slot>
                 </x-sidebar-item>
-
-                <x-sidebar-item href="#" icon="bi bi-earbuds" label="Produk" hasSub="true" active="{{ request()->is('admin/products*')}}">
+                <x-sidebar-item href="#" icon="bi bi-person" label="Pengguna" hasSub="true"
+                    active="{{ request()->is('admin/users*') || request()->is('admin/admins') }}">
                     <x-slot name="submenu">
                         <x-sidebar-sub-item :items="[
-                            ['href' => route('admin.products.index'), 'label' => 'Produk', 'active' => request()->is('admin/products*')],
-                            ['href' => route('admin.products.categories.index'), 'label' => 'Kategori', 'active' => request()->is('admin/products/categories*')],
+                            [
+                                'href' => route('admin.users.index'),
+                                'label' => 'Buyer',
+                                'active' => request()->is('admin/users*'),
+                            ],
+                            [
+                                'href' => route('admin.admins.index'),
+                                'label' => 'Admin',
+                                'active' => request()->is('admin/admins'),
+                            ],
                         ]" />
                     </x-slot>
                 </x-sidebar-item>

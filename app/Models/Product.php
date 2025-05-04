@@ -11,20 +11,24 @@ class Product extends Model
     use Sluggable, SoftDeletes;
 
     protected $fillable = [
+        'sku',
         'name',
         'slug',
         'image',
         'description',
-        'price',
+        'sale_price',
+        'buy_price',
         'discount',
-        'sku',
         'min_stock',
+        'weight',
+        'unit',
         'category_id',
     ];
 
     protected $appends = [
         'image_url',
         'price_after_discount',
+        'stock',
     ];
 
     public function getImageUrlAttribute(): string
@@ -40,12 +44,27 @@ class Product extends Model
 
     public function getPriceAfterDiscountAttribute(): float
     {
-        return $this->price - ($this->price * $this->discount / 100);
+        return $this->sale_price - ($this->sale_price * $this->discount / 100);
+    }
+
+    public function getStockAttribute(): int
+    {
+        return $this->stockEntries()->sum('quantity') - $this->stockOutputs()->sum('quantity');
     }
 
     public function category()
     {
         return $this->belongsTo(ProductCategory::class, 'category_id');
+    }
+
+    public function stockEntries()
+    {
+        return $this->hasMany(StockEntry::class);
+    }
+
+    public function stockOutputs()
+    {
+        return $this->hasMany(StockOutput::class);
     }
 
     /**
