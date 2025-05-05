@@ -23,10 +23,13 @@ Route::get('/shop/{slug}', ShowProduct::class)
     ->name('shop.show');
 
 Route::get('/cart', IndexCart::class)
-    ->name('cart.index');
+    ->name('cart.index')
+    ->middleware('auth');
 
 Route::get('/wishlist', IndexWishlist::class)
-    ->name('wishlist.index');
+    ->name('wishlist.index')
+    ->middleware('auth');
 
 Route::get('/orders/history', OrderHistory::class)
-    ->name('orders.history');
+    ->name('orders.history')
+    ->middleware('auth');

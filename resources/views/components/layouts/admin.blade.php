@@ -7,6 +7,18 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ $title ?? 'Admin' }}</title>
     <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
+    
+    <!-- Add these scripts before Livewire -->
+    <script>
+        window.livewire_app_url = '{{ config('app.url') }}';
+        window.livewire_token = '{{ csrf_token() }}';
+        document.addEventListener('DOMContentLoaded', function() {
+            Livewire.on('reinitialize', () => {
+                Livewire.rescan();
+            });
+        });
+    </script>
+    
     @vite(['resources/admin/css/app.css', 'resources/admin/css/app-dark.css', 'resources/js/app.js', 'resources/admin/js/app.js'])
     @livewireStyles
 </head>
@@ -15,10 +27,6 @@
     @vite('resources/admin/static/js/initTheme.js')
 
     <div id="app">
-        <!-- Loading indicator -->
-        {{-- <livewire:admin.partials.loader /> --}}
-
-
         <livewire:admin.partials.sidebar />
         <div id="main" class="layout-navbar navbar-fixed">
             <livewire:admin.partials.topbar />
@@ -28,9 +36,18 @@
             <livewire:admin.partials.footer />
         </div>
     </div>
-    @vite(['resources/admin/static/js/components/dark.js', 'resources/admin/static/js/components/toast.js', 'resources/admin/static/js/components/sweetalert.js'])
-    @stack('scripts')
-    @livewireScripts
-</body>
 
+    <!-- Add these right before Livewire scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        axios.interceptors.request.use((config) => {
+            config.headers['X-CSRF-TOKEN'] = document.querySelector('meta[name="csrf-token"]').content;
+            return config;
+        });
+    </script>
+    
+    @vite(['resources/admin/static/js/components/dark.js', 'resources/admin/static/js/components/toast.js', 'resources/admin/static/js/components/sweetalert.js'])
+    @livewireScripts
+    @stack('scripts')
+</body>
 </html>

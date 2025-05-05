@@ -2,7 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Livewire\Admin\Users\EditUser;
+use App\Livewire\Admin\Order\ShowOrder;
 use App\Livewire\Admin\Users\IndexUser;
+use App\Livewire\Admin\Order\IndexOrder;
 use App\Livewire\Admin\Users\CreateUser;
 use App\Livewire\Admin\Products\EditProduct;
 use App\Livewire\Admin\Users\IndexUserAdmin;
@@ -72,4 +74,9 @@ Route::middleware(['web', 'auth'])
             ->name('products.categories.create');
         Route::get('/products/categories/{category}/edit', EditProductCategory::class)
             ->name('products.categories.edit');
+
+        Route::get('/orders', IndexOrder::class)
+            ->name('orders.index');
+        Route::get('/orders/{order}', ShowOrder::class)
+            ->name('orders.show');
     });
