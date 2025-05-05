@@ -30,7 +30,11 @@
                                         @if ($order->order_status == 'pending')
                                             <span class="badge bg-warning text-dark">{{ $order->order_status }}</span>
                                         @elseif ($order->order_status == 'confirmed')
-                                            <span class="badge bg-primary">{{ $order->order_status }}</span>
+                                            @if ($order->transaction->transaction_status == 'pending')
+                                                <span class="badge bg-warning text-dark">Menunggu Pembayaran</span>
+                                            @elseif ($order->transaction->transaction_status == 'settlement')
+                                                <span class="badge bg-success">Pembayaran Berhasil</span>
+                                            @endif
                                         @elseif ($order->order_status == 'shipped')
                                             <span class="badge bg-info">{{ $order->order_status }}</span>
                                         @elseif ($order->order_status == 'delivered')
@@ -168,7 +172,7 @@
                                     </button>
                                 @endif
 
-                                @if (!$showShippingForm && in_array($order->order_status, ['pending', 'confirmed']))
+                                @if (!$showShippingForm && $order->order_status == 'pending')
                                     <button wire:click.prevent="editShippingCost" class="btn btn-outline-primary">
                                         <i class="bi bi-pencil"></i> Ubah Ongkir
                                     </button>

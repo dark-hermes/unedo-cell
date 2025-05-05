@@ -20,7 +20,7 @@ class MidtransService
         return Snap::getSnapToken($params);
     }
 
-    public function getTransactionStatus(string $orderId)
+    public function checkStatus(string $orderId)
     {
         return Transaction::status($orderId);
     }

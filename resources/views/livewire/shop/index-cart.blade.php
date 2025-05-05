@@ -153,7 +153,7 @@
                                             <select class="form-control" wire:model.live="shippingMethod">
                                                 <option value="self_pickup">Ambil di Unedo Cell</option>
                                                 <option value="unedo">Kurir Unedo</option>
-                                                <option value="courir">Kurir Ekspedisi</option>
+                                                <option value="courier">Kurir Ekspedisi</option>
                                             </select>
                                         </div>
 

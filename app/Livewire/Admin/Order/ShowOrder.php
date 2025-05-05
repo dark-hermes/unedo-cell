@@ -117,6 +117,14 @@ class ShowOrder extends Component
             return;
         }
 
+        if ($this->order->receipt_number !== null) {
+            $this->dispatch('show-toast', [
+                'message' => 'Nomor resi hanya bisa diinput satu kali!',
+                'type' => 'error',
+            ]);
+            return;
+        }
+
         try {
             $this->order->update(['receipt_number' => $this->receipt_number]);
             $this->dispatch('show-toast', [
@@ -138,6 +146,14 @@ class ShowOrder extends Component
         ]);
 
         try {
+            if ($this->order->order_status !== 'pending') {
+                $this->dispatch('show-toast', [
+                    'message' => 'Biaya pengiriman hanya dapat diperbarui untuk pesanan yang belum diproses!',
+                    'type' => 'error',
+                ]);
+                return;
+            }
+
             DB::transaction(function () {
                 $freshOrder = Order::findOrFail($this->order->id);
 

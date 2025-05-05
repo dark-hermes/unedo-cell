@@ -59,7 +59,7 @@
                                                 Kurir Unedo
                                             @break
 
-                                            @case('courir')
+                                            @case('courier')
                                                 Kurir Ekspedisi
                                             @break
 
@@ -83,15 +83,53 @@
                                     <p class="mb-0">
                                         <span
                                             class="text
-                                            @if ($order->order_status == 'completed') text-success 
-                                            @elseif($order->order_status == 'processing') text-primary 
-                                            @elseif($order->order_status == 'cancelled') text-danger 
-                                            @else text-secondary @endif">
-
-                                            {{ ucfirst($order->order_status) }}
+                                                @if ($order->order_status == 'pending') text-warning
+                                                @elseif ($order->order_status == 'confirmed') text-primary
+                                                @elseif ($order->order_status == 'shipped') text-info
+                                                @elseif ($order->order_status == 'delivered') text-success
+                                                @elseif ($order->order_status == 'cancelled') text-danger
+                                                @else text-secondary @endif">
+                                            @if ($order->order_status == 'pending')
+                                                Menunggu Konfirmasi
+                                            @elseif ($order->order_status == 'confirmed')
+                                                @if ($order->transaction->transaction_status == 'pending')
+                                                    Menunggu Pembayaran
+                                                @elseif ($order->transaction->transaction_status == 'settlement')
+                                                    Pembayaran Berhasil
+                                                @endif
+                                            @elseif ($order->order_status == 'shipped')
+                                                Dalam Pengiriman
+                                            @elseif ($order->order_status == 'delivered')
+                                                Selesai
+                                            @elseif ($order->order_status == 'cancelled')
+                                                Dibatalkan
+                                            @else
+                                                {{ ucfirst($order->order_status) }}
+                                            @endif
                                         </span>
                                     </p>
                                 </div>
+                            </div>
+
+                            <!-- Action buttons -->
+                            <div class="mt-2">
+                                @if ($order->order_status === 'pending')
+                                    <button wire:click.prevent="cancelOrder('{{ $order->id }}')"
+                                        class="btn btn-sm btn-danger">
+                                        Batalkan Pesanan
+                                    </button>
+                                @elseif ($order->order_status === 'confirmed' && $order->transaction->transaction_status === 'pending')
+                                {{-- with loading --}}
+                                    <a href="{{ route('orders.payment', $order->id) }}"
+                                        class="btn btn-sm btn-primary">
+                                        Bayar Sekarang
+                                    </a>
+                                @elseif ($order->order_status === 'delivered')
+                                    <button wire:click.prevent="completeOrder('{{ $order->id }}')"
+                                        class="btn btn-sm btn-success">
+                                        Tandai Selesai
+                                    </button>
+                                @endif
                             </div>
 
                             <!-- Tombol toggle detail -->
@@ -183,7 +221,7 @@
                                                         Kurir Unedo
                                                     @break
 
-                                                    @case('courir')
+                                                    @case('courier')
                                                         Kurir Ekspedisi
                                                     @break
 
@@ -191,9 +229,9 @@
                                                         {{ $order->shipping_method }}
                                                 @endswitch
                                             </p>
-                                            @if ($order->receipt_number)
+                                            @if (in_array($order->order_status, ['shipped', 'delivered']) && $order->shipping_method === 'courier')
                                                 <p class="mb-1"><strong>No. Resi:</strong>
-                                                    {{ $order->receipt_number }}</p>
+                                                    {{ $order->receipt_number ?? 'Belum tersedia' }}</p>
                                             @endif
                                         </div>
                                         <div class="col-md-6">
@@ -203,12 +241,30 @@
                                                 {{ $order->created_at->format('d M Y H:i') }}</p>
                                             <p class="mb-1"><strong>Status:</strong>
                                                 <span
-                                                    class="badge 
-                                                    @if ($order->order_status == 'completed') badge-success 
-                                                    @elseif($order->order_status == 'processing') badge-primary 
-                                                    @elseif($order->order_status == 'cancelled') badge-danger 
-                                                    @else badge-secondary @endif">
-                                                    {{ ucfirst($order->order_status) }}
+                                                    class="text
+                                                @if ($order->order_status == 'pending') text-warning
+                                                @elseif ($order->order_status == 'confirmed') text-primary
+                                                @elseif ($order->order_status == 'shipped') text-info
+                                                @elseif ($order->order_status == 'delivered') text-success
+                                                @elseif ($order->order_status == 'cancelled') text-danger
+                                                @else text-secondary @endif">
+                                                    @if ($order->order_status == 'pending')
+                                                        Menunggu Konfirmasi
+                                                    @elseif ($order->order_status == 'confirmed')
+                                                        @if ($order->transaction->transaction_status == 'pending')
+                                                            Menunggu Pembayaran
+                                                        @elseif ($order->transaction->transaction_status == 'settlement')
+                                                            Pembayaran Berhasil
+                                                        @endif
+                                                    @elseif ($order->order_status == 'shipped')
+                                                        Dalam Pengiriman
+                                                    @elseif ($order->order_status == 'delivered')
+                                                        Selesai
+                                                    @elseif ($order->order_status == 'cancelled')
+                                                        Dibatalkan
+                                                    @else
+                                                        {{ ucfirst($order->order_status) }}
+                                                    @endif
                                                 </span>
                                             </p>
                                             @if ($order->note)
@@ -239,6 +295,11 @@
 
         .toggle-detail {
             transition: all 0.3s ease;
+        }
+
+        .btn-sm {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.875rem;
         }
     </style>
 @endpush
