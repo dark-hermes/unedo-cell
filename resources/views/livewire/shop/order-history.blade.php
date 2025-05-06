@@ -86,7 +86,7 @@
                                                 @if ($order->order_status == 'pending') text-warning
                                                 @elseif ($order->order_status == 'confirmed') text-primary
                                                 @elseif ($order->order_status == 'shipped') text-info
-                                                @elseif ($order->order_status == 'delivered') text-success
+                                                @elseif ($order->order_status == 'completed') text-success
                                                 @elseif ($order->order_status == 'cancelled') text-danger
                                                 @else text-secondary @endif">
                                             @if ($order->order_status == 'pending')
@@ -99,7 +99,7 @@
                                                 @endif
                                             @elseif ($order->order_status == 'shipped')
                                                 Dalam Pengiriman
-                                            @elseif ($order->order_status == 'delivered')
+                                            @elseif ($order->order_status == 'completed')
                                                 Selesai
                                             @elseif ($order->order_status == 'cancelled')
                                                 Dibatalkan
@@ -124,7 +124,7 @@
                                         class="btn btn-sm btn-primary">
                                         Bayar Sekarang
                                     </a>
-                                @elseif ($order->order_status === 'delivered')
+                                @elseif ($order->order_status === 'shipped')
                                     <button wire:click.prevent="completeOrder('{{ $order->id }}')"
                                         class="btn btn-sm btn-success">
                                         Tandai Selesai

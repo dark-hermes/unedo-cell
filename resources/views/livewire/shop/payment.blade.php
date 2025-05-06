@@ -58,7 +58,7 @@
                                 Coba Lagi
                             </button>
                             
-                            <a href="{{ route('order.history') }}" class="btn btn-secondary">
+                            <a href="{{ route('orders.history') }}" class="btn btn-secondary">
                                 Kembali ke Riwayat
                             </a>
                         </div>

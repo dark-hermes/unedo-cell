@@ -75,14 +75,14 @@
                                         Rp{{ number_format($order->total_price, 0, ',', '.') }}
                                     </td>
                                     <td>
-                                        {{-- pending, confirmed, shipped, delivered, cancelled --}}
+                                        {{-- pending, confirmed, shipped, completed, cancelled --}}
                                         @if ($order->order_status == 'pending')
                                             <span class="badge bg-warning text-dark">{{ $order->order_status }}</span>
                                         @elseif ($order->order_status == 'confirmed')
                                             <span class="badge bg-primary">{{ $order->order_status }}</span>
                                         @elseif ($order->order_status == 'shipped')
                                             <span class="badge bg-info">{{ $order->order_status }}</span>
-                                        @elseif ($order->order_status == 'delivered')
+                                        @elseif ($order->order_status == 'completed')
                                             <span class="badge bg-success">{{ $order->order_status }}</span>
                                         @elseif ($order->order_status == 'cancelled')
                                             <span class="badge bg-danger">{{ $order->order_status }}</span>

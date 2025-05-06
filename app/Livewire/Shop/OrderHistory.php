@@ -37,9 +37,17 @@ class OrderHistory extends Component
                 ]);
             }
             
-            session()->flash('message', 'Pesanan berhasil dibatalkan.');
+            $this->dispatch('swal', [
+                'title' => 'Pesanan Dibatalkan',
+                'text' => 'Pesanan Anda telah dibatalkan.',
+                'icon' => 'success',
+            ]);
         } else {
-            session()->flash('error', 'Pesanan tidak dapat dibatalkan karena sudah diproses.');
+            $this->dispatch('swal', [
+                'title' => 'Pesanan Tidak Dapat Dibatalkan',
+                'text' => 'Pesanan sudah dalam proses pengiriman.',
+                'icon' => 'error',
+            ]);
         }
     }
 
@@ -48,14 +56,36 @@ class OrderHistory extends Component
         $order = Order::findOrFail($orderId);
         
         // Only allow completion if order is delivered
-        if ($order->order_status === 'delivered') {
+        if ($order->order_status === 'shipped') {
             $order->update([
                 'order_status' => 'completed'
             ]);
+
+            $products = $order->orderItems->pluck('product_id')->toArray();
+            foreach ($products as $productId) {
+                $order->orderItems()->where('product_id', $productId)->product()->stockOutputs()->create([
+                    'product_id' => $productId,
+                    'quantity' => $order->orderItems()->where('product_id', $productId)->quantity,
+                    'reason' => 'sale',
+                    'note' => $order->user->name . ' : ' . $order->user->phone . ' - ' . $order->recipient_name . ' : ' . $order->recipient_phone,
+                ]);
+            }
             
-            session()->flash('message', 'Pesanan berhasil diselesaikan.');
+            $this->dispatch('swal:confirm', [
+                'title' => 'Pastikan Pesanan Anda Sudah Sampai',
+                'text' => 'Pesanan akan diselesaikan dan uang akan diteruskan ke penjual.',
+                'icon' => 'warning',
+                'showCancelButton' => true,
+                'confirmButtonText' => 'Ya, Selesaikan Pesanan',
+                'cancelButtonText' => 'Tidak, Batalkan',
+                'onConfirm' => 'completeOrderConfirmed',
+            ]);
         } else {
-            session()->flash('error', 'Pesanan hanya dapat diselesaikan setelah diterima.');
+            $this->dispatch('swal', [
+                'title' => 'Pesanan Belum Selesai',
+                'text' => 'Pesanan belum sampai di tangan Anda.',
+                'icon' => 'error',
+            ]);
         }
     }
 

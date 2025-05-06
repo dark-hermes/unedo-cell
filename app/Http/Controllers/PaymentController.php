@@ -6,6 +6,7 @@ use App\Models\Order;
 use Illuminate\Http\Request;
 use App\Services\MidtransService;
 use Illuminate\Support\Facades\Auth;
+use App\Services\TelegramNotificationService;
 
 class PaymentController extends Controller
 {
@@ -88,9 +89,9 @@ class PaymentController extends Controller
         $order = Order::with('transaction')->findOrFail($orderId);
 
         // Verifikasi status transaksi
-        if (!$order->transaction || $order->transaction->transaction_status !== 'settlement') {
+        if ($order->transaction->transaction_status !== 'settlement') {
             $midtransService = new MidtransService();
-            $status = $midtransService->checkStatus($orderId);
+            $status = $midtransService->checkStatus($order->transaction->transaction_code);
 
             if ($status->transaction_status === 'settlement') {
                 $order->transaction()->update([
@@ -99,12 +100,15 @@ class PaymentController extends Controller
                     'settlement_time' => now(),
                 ]);
                 $order->update(['order_status' => 'confirmed']);
+
+                $telegramService = new TelegramNotificationService();
+                $telegramService->sendPaymentNotification($order);
             } else {
                 return redirect()->route('payment.checkout', ['order' => $orderId])
                     ->with('error', 'Pembayaran belum berhasil, silakan coba lagi.');
             }
         }
 
-        return view('payment.success', compact('order'));
+        return view('shop.payment.success', compact('order'));
     }
 }

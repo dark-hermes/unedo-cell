@@ -40,7 +40,7 @@ Route::get('/orders/{order}/payment', Payment::class)
     ->name('orders.payment')
     ->middleware('auth');
 
-Route::get('/payment/success/{order}', [PaymentController::class, 'paymentSuccess'])->name('orders.payment.success')->middleware('auth');
+Route::get('/payment/success/{orderId}', [PaymentController::class, 'paymentSuccess'])->name('orders.payment.success')->middleware('auth');
 
 Route::post('/payment/notification', [PaymentController::class, 'handleNotification'])
     ->name('payment.notification');

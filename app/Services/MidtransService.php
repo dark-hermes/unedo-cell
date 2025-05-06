@@ -25,6 +25,11 @@ class MidtransService
         return Transaction::status($orderId);
     }
 
+    public function createTransaction(array $params)
+    {
+        return Snap::createTransaction($params);
+    }
+
     // public function refund(string $orderId, float $amount, string $reason, ?string $refundKey = null)
     // {
     //     return Transaction::refund($orderId, [

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('address')->nullable();
             $table->string('recipient_name')->nullable();
             $table->string('recipient_phone')->nullable();
-            $table->enum('order_status', ['pending', 'confirmed', 'shipped', 'delivered', 'cancelled'])->default('pending');
+            $table->enum('order_status', ['pending', 'confirmed', 'shipped', 'completed', 'cancelled'])->default('pending');
             $table->string('receipt_number')->nullable();
             $table->enum('shipping_method', ['unedo', 'self_pickup', 'courier']);
             $table->double('shipping_cost')->default(0);

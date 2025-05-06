@@ -68,11 +68,11 @@
                 <i class="zmdi zmdi-search"></i>
             </div>
 
-            <a href="{{route('home')}}" div class="icon-header-item cl2 hov-cl1 trans-04js-show-cart">
+            <a href="{{route('cart.index')}}" div class="icon-header-item cl2 hov-cl1 trans-04js-show-cart">
                 <i class="zmdi zmdi-shopping-cart"></i>
             </div>
 
-            <a href="{{route('home')}}" class="dis-block icon-header-item cl2 hov-cl1 p-r-11 trans-04">
+            <a href="{{route('wishlist.index')}}" class="dis-block icon-header-item cl2 hov-cl1 p-r-11 trans-04">
                 <i class="zmdi zmdi-favorite-outline"></i>
             </a>
 
@@ -95,11 +95,11 @@
             </li>
 
             <li>
-                <a href="#">Home</a>
+                <a href="{{ route('home') }}">Beranda</a>
             </li>
 
             <li>
-                <a href="products">Shop</a>
+                <a href="{{ route('shop.index') }}">Belanja</a>
             </li>
 
             <li>

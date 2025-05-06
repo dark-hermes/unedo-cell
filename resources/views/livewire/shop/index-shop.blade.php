@@ -31,6 +31,15 @@
                         <i class="icon-close-search cl2 m-r-6 fs-15 trans-04 zmdi zmdi-close dis-none"></i>
                         Search
                     </div>
+
+                    {{-- button to order history --}}
+                    @auth
+                        <a href="{{ route('orders.history') }}"
+                            class="flex-c-m stext-106 cl6 size-105 bor4 pointer hov-btn3 trans-04 m-r-8 m-tb-4">
+                            <i class="icon-history cl2 m-r-6 fs-15 trans-04 zmdi zmdi-history"></i>
+                            Riwayat Pembelian
+                        </a>
+                    @endauth
                 </div>
 
                 <!-- Search product -->

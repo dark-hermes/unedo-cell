@@ -37,7 +37,7 @@
                                             @endif
                                         @elseif ($order->order_status == 'shipped')
                                             <span class="badge bg-info">{{ $order->order_status }}</span>
-                                        @elseif ($order->order_status == 'delivered')
+                                        @elseif ($order->order_status == 'completed')
                                             <span class="badge bg-success">{{ $order->order_status }}</span>
                                         @elseif ($order->order_status == 'cancelled')
                                             <span class="badge bg-danger">{{ $order->order_status }}</span>
@@ -156,9 +156,11 @@
                                         </span>
                                     </button>
                                 @elseif($order->order_status == 'confirmed')
-                                    <button wire:click.prevent="shipOrder" class="btn btn-info">
-                                        <i class="bi bi-truck"></i> Tandai Dikirim
-                                    </button>
+                                    @if ($order->transaction->transaction_status == 'settlement')
+                                        <button wire:click.prevent="shipOrder" class="btn btn-info">
+                                            <i class="bi bi-truck"></i> Tandai Dikirim
+                                        </button>
+                                    @endif
                                     <button wire:click.prevent="cancelOrder" class="btn btn-danger">
                                         <i class="bi bi-x-circle"></i> Batalkan Pesanan
                                     </button>

@@ -35,7 +35,7 @@ class Payment extends Component
 
         $params = [
             'transaction_details' => [
-                'order_id' => $this->order->id,
+                'order_id' => $this->order->transaction->transaction_code,
                 'gross_amount' => $this->order->total_price,
             ],
             'customer_details' => [
@@ -45,18 +45,18 @@ class Payment extends Component
             ],
             'item_details' => $this->buildItemDetails(),
             'callbacks' => [
-                'finish' => route('payment.success', ['order' => $this->order->id]),
+                'finish' => route('orders.payment.success', ['orderId' => $this->order->id]),
             ]
         ];
 
         try {
-            $transaction = $this->order->transaction()->update(
-                [
-                    'snap_token' => $midtransService->createSnapToken($params),
-                ]
-            );
+            // $transaction = $this->order->transaction()->update(
+            //     [
+            //         'snap_token' => $midtransService->createSnapToken($params),
+            //     ]
+            // );
 
-            $this->paymentUrl = $transaction->redirect_url;
+            $this->paymentUrl = $midtransService->createTransaction($params)->redirect_url;
             $this->paymentStatus = 'ready';
         } catch (\Exception $e) {
             $this->addError('payment', 'Error processing payment: ' . $e->getMessage());

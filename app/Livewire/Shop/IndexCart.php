@@ -6,6 +6,7 @@ use App\Models\Cart;
 use App\Models\User;
 use App\Models\Order;
 use App\Models\Address;
+use App\Services\TelegramNotificationService;
 use Livewire\Component;
 use Livewire\Attributes\Layout;
 use Illuminate\Support\Facades\Auth;
@@ -144,11 +145,17 @@ class IndexCart extends Component
                 $item->delete();
             }
 
+            $telegramService = new TelegramNotificationService();
+            $telegramService->sendOrderNotification($order);
+
             $this->dispatch('swal', [
                 'title' => 'Checkout Berhasil',
                 'text' => 'Pesanan Anda telah berhasil diproses!',
                 'icon' => 'success'
             ]);
+
+            // wait 3 seconds and redirect to order history
+            $this->redirect(route('orders.history'));
         } catch (\Exception $e) {
             logger()->error('Checkout error: ' . $e->getMessage());
             $this->dispatch('swal', [
