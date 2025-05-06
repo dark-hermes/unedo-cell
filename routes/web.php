@@ -10,6 +10,8 @@ use App\Livewire\Shop\IndexWishlist;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\Auth\GoogleAuthController;
+use App\Livewire\Reparation\FormReparation;
+use App\Livewire\Reparation\HistoryReparation;
 
 Route::get('auth/google', [GoogleAuthController::class, 'redirectToGoogle'])
     ->name('auth.google.redirect');
@@ -44,6 +46,14 @@ Route::get('/payment/success/{orderId}', [PaymentController::class, 'paymentSucc
 
 Route::post('/payment/notification', [PaymentController::class, 'handleNotification'])
     ->name('payment.notification');
+
+Route::get('/reparations/history', HistoryReparation::class)
+    ->name('reparations.history')
+    ->middleware('auth');
+    
+Route::get('/reparations', FormReparation::class)
+    ->name('reparations.form')
+    ->middleware('auth');
 
 // Route::get('/orders/{order}/payment', [PaymentController::class, 'payment'])
 //     ->name('orders.payment')

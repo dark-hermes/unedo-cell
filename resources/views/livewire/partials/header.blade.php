@@ -20,7 +20,7 @@
                         </li>
 
                         <li class="{{ request()->is('reparation') ? 'active-menu' : '' }}">
-                            <a href="{{ route('home') }}">Servis</a>
+                            <a href="{{ route('reparations.form') }}">Servis</a>
                         </li>
 
                         <li class="{{ request()->is('contact') ? 'active-menu' : '' }}">
@@ -103,7 +103,8 @@
             </li>
 
             <li>
-                <a href="reparation" class="label1 rs1" data-label1="hot">Reparation</a>
+                <a href="{{ route('reparations.form') }}
+                class="label1 rs1" data-label1="hot">Reparasi</a>
             </li>
 
             <li>

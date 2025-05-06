@@ -16,6 +16,7 @@ use App\Livewire\Admin\Products\IndexStockEntry;
 use App\Livewire\Admin\Products\IndexStockOutput;
 use App\Livewire\Admin\Products\ManageStockEntry;
 use App\Livewire\Admin\Products\ManageStockOutput;
+use App\Livewire\Admin\Reparation\IndexReparation;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Livewire\Admin\HomeContents\EditHomeContent;
 use App\Livewire\Admin\HomeContents\IndexHomeContent;
@@ -79,4 +80,9 @@ Route::middleware(['web', 'auth'])
             ->name('orders.index');
         Route::get('/orders/{order}', ShowOrder::class)
             ->name('orders.show');
+
+        Route::get('/reparations', IndexReparation::class)
+            ->name('reparations.index');
+        Route::get('/reparations/{reparation}', ShowOrder::class)
+            ->name('reparations.show');
     });
