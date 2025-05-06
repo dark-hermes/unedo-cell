@@ -32,7 +32,6 @@ class TelegramNotificationService
     public function sendOrderNotification($order)
     {
         $message = "Pesanan baru dari {$order->user->name}:\n";
-        $message .= "ID Pesanan: {$order->transaction->transaction_code}\n";
         $message .= "Total Harga: {$order->total_price}\n";
         $message .= "Alamat Pengiriman: {$order->address}\n";
         $message .= "Metode Pengiriman: {$order->shipping_method}\n";

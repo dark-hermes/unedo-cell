@@ -63,9 +63,10 @@ class OrderHistory extends Component
 
             $products = $order->orderItems->pluck('product_id')->toArray();
             foreach ($products as $productId) {
-                $order->orderItems()->where('product_id', $productId)->product()->stockOutputs()->create([
+                $order->orderItems()->where('product_id', $productId)->first()->product->stockOutputs()->create([
                     'product_id' => $productId,
-                    'quantity' => $order->orderItems()->where('product_id', $productId)->quantity,
+                    'user_id' => Auth::id(),
+                    'quantity' => $order->orderItems()->where('product_id', $productId)->first()->quantity,
                     'reason' => 'sale',
                     'note' => $order->user->name . ' : ' . $order->user->phone . ' - ' . $order->recipient_name . ' : ' . $order->recipient_phone,
                 ]);

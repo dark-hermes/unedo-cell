@@ -2,11 +2,16 @@
     <div class="container">
         <div class="row">
             <div class="col-sm-12 col-lg-8 m-lr-auto m-b-50">
+                <div class="flex-w flex-c-m m-tb-10 p-t-75 justify-content-end">
+                    <a href="{{ route('reparations.history') }}" class="flex-c-m stext-106 cl6 size-105 bor4 pointer hov-btn3 trans-04 m-tb-4">
+                        <i class="icon-history cl2 m-r-6 fs-15 trans-04 zmdi zmdi-time-restore"></i>
+                        Riwayat Reparasi
+                    </a>
+                </div>
                 <div class="bor10 p-lr-50 p-t-30 p-b-40 m-lr-0-xl p-lr-15-sm">
                     <h4 class="mtext-109 cl2 p-b-30 text-center">
                         Formulir reparasi
                     </h4>
-
                     @if (session('message'))
                         <div class="alert alert-success mb-4">
                             {{ session('message') }}
