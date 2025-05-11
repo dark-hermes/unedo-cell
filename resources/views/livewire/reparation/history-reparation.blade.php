@@ -95,11 +95,12 @@
                                                             {{ $reparation->status === 'completed' ? 'Selesai' : 'Dibatalkan' }}
                                                         </button>
                                                     @else
-                                                        <button class="flex-c-m stext-101 cl0 size-105 bor1 p-lr-15 trans-04" 
+                                                        {{-- <button class="flex-c-m stext-101 cl0 size-105 bor1 p-lr-15 trans-04" 
                                                                 style="background-color: #060606a8; font-size: 0.8rem; padding: 6px 6px; line-height: 1; height: 35px; display: inline-flex; align-items: center; opacity: 1; cursor: not-allowed;" 
                                                                 disabled>
                                                             Menunggu
-                                                        </button>
+                                                        </button> --}}
+                                                        {{-- Detail Button action --}}
                                                     @endif
                                                 </td>
                                             </tr>

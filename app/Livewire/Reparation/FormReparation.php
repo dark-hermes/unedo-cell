@@ -44,8 +44,15 @@ class FormReparation extends Component
             'status' => $this->status,
         ]);
 
+        logger()->info('File Bukti Upload', [
+            'files' => $this->files
+        ]);
+
         // Handle file uploads
         if ($this->files) {
+            logger()->info('File Bukti Upload', [
+                'files' => $this->files,
+            ]);
             foreach ($this->files as $file) {
                 $path = $file->store('reparations', 'public');
                 
@@ -54,7 +61,6 @@ class FormReparation extends Component
                     'fileable_type' => Reparation::class,
                     'file_path' => $path,
                     'file_type' => $file->getClientOriginalExtension(),
-                    'file_url' => asset('storage/' . $path),
                 ]);
             }
         }

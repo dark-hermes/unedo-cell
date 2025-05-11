@@ -24,6 +24,7 @@ use App\Livewire\Admin\HomeContents\CreateHomeContent;
 use App\Livewire\Admin\Products\Categories\EditProductCategory;
 use App\Livewire\Admin\Products\Categories\IndexProductCategory;
 use App\Livewire\Admin\Products\Categories\CreateProductCategory;
+use App\Livewire\Admin\Reparation\ShowReparation;
 
 Route::middleware(['web', 'auth'])
     ->name('admin.')
@@ -83,6 +84,6 @@ Route::middleware(['web', 'auth'])
 
         Route::get('/reparations', IndexReparation::class)
             ->name('reparations.index');
-        Route::get('/reparations/{reparation}', ShowOrder::class)
+        Route::get('/reparations/{reparation}', ShowReparation::class)
             ->name('reparations.show');
     });

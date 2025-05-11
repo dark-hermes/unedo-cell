@@ -41,7 +41,7 @@ class Payment extends Component
             'customer_details' => [
                 'first_name' => $this->order->user->name,
                 'email' => $this->order->user->email,
-                'phone' => $this->order->recipient_phone,
+                'phone' => $this->order->user->phone,
             ],
             'item_details' => $this->buildItemDetails(),
             'callbacks' => [
@@ -50,12 +50,6 @@ class Payment extends Component
         ];
 
         try {
-            // $transaction = $this->order->transaction()->update(
-            //     [
-            //         'snap_token' => $midtransService->createSnapToken($params),
-            //     ]
-            // );
-
             $this->paymentUrl = $midtransService->createTransaction($params)->redirect_url;
             $this->paymentStatus = 'ready';
         } catch (\Exception $e) {
