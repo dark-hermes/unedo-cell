@@ -24,7 +24,7 @@
                                 <i class="zmdi zmdi-info-outline cl3" style="font-size: 48px;"></i>
                                 <h4 class="mtext-105 cl2 p-t-33">Belum ada riwayat reparasi</h4>
                                 <p class="stext-115 cl6 p-t-10">Anda belum memiliki permintaan reparasi</p>
-                                <a href="{{ route('reparation') }}" class="flex-c-m stext-101 cl0 size-116 bg3 bor14 hov-btn3 p-lr-15 trans-04 pointer m-t-20" style="max-width: 300px; margin: 0 auto;">
+                                <a href="{{ route('reparations.form') }}" class="flex-c-m stext-101 cl0 size-116 bg3 bor14 hov-btn3 p-lr-15 trans-04 pointer m-t-20" style="max-width: 300px; margin: 0 auto;">
                                     Buat Permintaan Reparasi
                                 </a>
                             </div>

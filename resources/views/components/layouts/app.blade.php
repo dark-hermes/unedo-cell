@@ -22,6 +22,7 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('vendor/slick/slick.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('vendor/MagnificPopup/magnific-popup.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('vendor/perfect-scrollbar/perfect-scrollbar.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('vendor/leaflet/leaflet.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/util.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/main.css') }}">
     <link href="https://fonts.googleapis.com" rel="preconnect">
@@ -53,13 +54,12 @@
     </div>
 
     <!-- All your JS scripts -->
-    @vite(['resources/admin/static/js/components/toast.js', 'resources/admin/static/js/components/sweetalert.js'])
     <script src="{{ asset('vendor/jquery/jquery-3.2.1.min.js') }}"></script>
-    <!-- Tambahkan semua script JS lainnya seperti di file asli -->
+    <script src="{{ asset('vendor/leaflet/leaflet.js') }}"></script>
     <script src="{{ asset('vendor/animsition/js/animsition.min.js') }}"></script>
     <!--===============================================================================================-->
-    <script src="{{  asset('vendor/bootstrap/js/popper.min.js') }}"></script>
-    <script src="{{  asset('vendor/bootstrap/js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('vendor/bootstrap/js/popper.min.js') }}"></script>
+    <script src="{{ asset('vendor/bootstrap/js/bootstrap.min.js') }}"></script>
     <!--===============================================================================================-->
     <script src="{{ asset('vendor/select2/select2.min.js') }}"></script>
 
@@ -71,6 +71,7 @@
             });
         })
     </script>
+    <script src="{{ asset('vendor/leaflet/leaflet.js') }}"></script>
     <!--===============================================================================================-->
     <script src="{{ asset('vendor/daterangepicker/moment.min.js') }}"></script>
     <script src="{{ asset('vendor/daterangepicker/daterangepicker.js') }}"></script>
@@ -102,41 +103,6 @@
     <script src="{{ asset('vendor/isotope/isotope.pkgd.min.js') }}"></script>
     <!--===============================================================================================-->
     <script src="vendor/sweetalert/sweetalert.min.js"></script>
-    <script>
-        // $('.js-addwish-b2').on('click', function(e) {
-        //     e.preventDefault();
-        // });
-
-        // $('.js-addwish-b2').each(function() {
-        //     var nameProduct = $(this).parent().parent().find('.js-name-b2').html();
-        //     $(this).on('click', function() {
-        //         swal(nameProduct, "is added to wishlist !", "success");
-
-        //         $(this).addClass('js-addedwish-b2');
-        //         $(this).off('click');
-        //     });
-        // });
-
-        // $('.js-addwish-detail').each(function() {
-        //     var nameProduct = $(this).parent().parent().parent().find('.js-name-detail').html();
-
-        //     $(this).on('click', function() {
-        //         swal(nameProduct, "is added to wishlist !", "success");
-
-        //         $(this).addClass('js-addedwish-detail');
-        //         $(this).off('click');
-        //     });
-        // });
-
-        /*---------------------------------------------*/
-
-        $('.js-addcart-detail').each(function() {
-            var nameProduct = $(this).parent().parent().parent().parent().find('.js-name-detail').html();
-            $(this).on('click', function() {
-                swal(nameProduct, "is added to cart !", "success");
-            });
-        });
-    </script>
     <!--===============================================================================================-->
     <script src="{{ asset('vendor/perfect-scrollbar/perfect-scrollbar.min.js') }}"></script>
     <script>
@@ -156,8 +122,9 @@
     </script>
     <!--===============================================================================================-->
     <script src="{{ asset('js/main.js') }}"></script>
-
+    @vite(['resources/admin/static/js/components/toast.js', 'resources/admin/static/js/components/sweetalert.js'])
     @livewireScripts
+    @stack('scripts')
 </body>
 
 </html>

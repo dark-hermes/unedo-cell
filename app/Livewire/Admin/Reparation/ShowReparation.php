@@ -13,10 +13,13 @@ class ShowReparation extends Component
     public Reparation $reparation;
     public bool $isProcessing = false;
 
+    public $price; // Add this property
+
     public function mount(Reparation $reparation)
     {
         Session::reflash();
         $this->reparation = $reparation->fresh();
+        $this->price = $this->reparation->price; // Initialize the price
     }
 
     public function hydrate()
@@ -30,7 +33,7 @@ class ShowReparation extends Component
 
         try {
             $this->reparation->update(['status' => 'confirmed']);
-            
+
             $this->dispatch('show-toast', [
                 'message' => 'Perbaikan telah dikonfirmasi!',
                 'type' => 'success',
@@ -66,6 +69,14 @@ class ShowReparation extends Component
     public function completeReparation()
     {
         try {
+            if ($this->reparation->price == null) {
+                $this->dispatch('show-toast', [
+                    'message' => 'Harga perbaikan belum ditentukan!',
+                    'type' => 'error',
+                ]);
+                return;
+            }
+
             $this->reparation->update(['status' => 'completed']);
             $this->dispatch('show-toast', [
                 'message' => 'Perbaikan telah selesai!',
@@ -98,20 +109,23 @@ class ShowReparation extends Component
     public function updatePrice()
     {
         $this->validate([
-            'reparation.price' => 'required|numeric|min:0',
+            'price' => 'required|numeric|min:0',
         ]);
 
         try {
-            $this->reparation->save();
+            $this->reparation->update([
+                'price' => $this->price,
+            ]);
+
             $this->dispatch('show-toast', [
                 'message' => 'Harga perbaikan berhasil diperbarui!',
                 'type' => 'success',
-            ])->self();
+            ]);
         } catch (\Exception $e) {
             $this->dispatch('show-toast', [
                 'message' => 'Gagal memperbarui harga: ' . $e->getMessage(),
                 'type' => 'error',
-            ])->self();
+            ]);
         }
     }
 

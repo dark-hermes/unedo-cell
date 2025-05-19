@@ -28,6 +28,7 @@ class GoogleAuthController extends Controller
                     'google_id' => $googleUser->getId(),
                     'image' => $googleUser->getAvatar()
                 ]);
+                $user->assignRole('user'); // Assign a default role
 
                 Auth::login($user);
 

@@ -6,6 +6,7 @@ use App\Livewire\Admin\Order\ShowOrder;
 use App\Livewire\Admin\Users\IndexUser;
 use App\Livewire\Admin\Order\IndexOrder;
 use App\Livewire\Admin\Users\CreateUser;
+use App\Livewire\Admin\Option\IndexOption;
 use App\Livewire\Admin\Products\EditProduct;
 use App\Livewire\Admin\Users\IndexUserAdmin;
 use App\Livewire\Admin\Products\HistoryStock;
@@ -15,18 +16,19 @@ use App\Livewire\Admin\Products\CreateProduct;
 use App\Livewire\Admin\Products\IndexStockEntry;
 use App\Livewire\Admin\Products\IndexStockOutput;
 use App\Livewire\Admin\Products\ManageStockEntry;
+use App\Livewire\Admin\Reparation\ShowReparation;
 use App\Livewire\Admin\Products\ManageStockOutput;
 use App\Livewire\Admin\Reparation\IndexReparation;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Livewire\Admin\HomeContents\EditHomeContent;
 use App\Livewire\Admin\HomeContents\IndexHomeContent;
 use App\Livewire\Admin\HomeContents\CreateHomeContent;
+use App\Livewire\Admin\Option\EditOption;
 use App\Livewire\Admin\Products\Categories\EditProductCategory;
 use App\Livewire\Admin\Products\Categories\IndexProductCategory;
 use App\Livewire\Admin\Products\Categories\CreateProductCategory;
-use App\Livewire\Admin\Reparation\ShowReparation;
 
-Route::middleware(['web', 'auth'])
+Route::middleware(['web', 'auth', 'role:admin'])
     ->name('admin.')
     ->group(function () {
         Route::get('/dashboard', [DashboardController::class, 'index'])
@@ -86,4 +88,9 @@ Route::middleware(['web', 'auth'])
             ->name('reparations.index');
         Route::get('/reparations/{reparation}', ShowReparation::class)
             ->name('reparations.show');
+
+        Route::get('/options', IndexOption::class)
+            ->name('options.index');
+        Route::get('/options/{option}/edit', EditOption::class)
+            ->name('options.edit');
     });

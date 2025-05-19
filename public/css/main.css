@@ -1,7 +1,7 @@
 /*------------------------------------------------------------------
-Project:  
-Version:  
-Last change:  
+Project:
+Version:
+Last change:
 Assigned to:  Le Xuan Bach
 Primary use:  Company
 -------------------------------------------------------------------*/
@@ -19,10 +19,10 @@ Primary use:  Company
 /*------------------------------------------------------------------
 [COLOR CODES]
 
-# Text Color      :  
-# Primary Color 01:  
-# Primary Color 02:   
-# Primary Color 03:  
+# Text Color      :
+# Primary Color 01:
+# Primary Color 02:
+# Primary Color 03:
 
 ------------------------------------------------------------------*/
 /*------------------------------------------------------------------
@@ -34,6 +34,92 @@ Paragrap        : 18px/1.6 '', Arial, sans-serif;
 Input, textarea : 14px/1.6 '', Arial, sans-serif;
 -------------------------------------------------------------------*/
 
+
+.card-alamat {
+  border-left: 4px solid yellow;
+  border-radius: 8px;
+  padding: 1rem 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+.alamat-utama {
+  background-color: #fdffe6;
+  border: 1px solid #bfc275;
+}
+.icon-check {
+  color: rgb(215, 215, 0);
+  font-size: 1.5rem;
+}
+.btn-pilih {
+  width: 70px;
+  margin-top: 1px;
+  font-weight: bold;
+  border-radius: 8px;
+}
+.opsi-link a {
+  text-decoration: none;
+  margin-left: 1rem;
+  font-weight: bold;
+}
+.btn-tambah-alamat {
+  border-radius: 8px;
+}
+.modal-dialog {
+margin: auto;
+transition: none;
+width: 95vw;
+max-width: 950px;
+min-width: 300px;
+display: flex;
+align-items: center;
+justify-content: center;
+min-height: calc(100vh - 2rem);
+}
+.modal-content {
+width: 100%;
+border-radius: 1rem;
+}
+.modal.fade .modal-dialog {
+transform: none;
+}
+body.modal-open {
+overflow: hidden;
+}
+
+.modal-body {
+padding: 1.5rem;
+}
+.modal-scroll-area {
+max-height: 50vh;
+overflow-y: auto;
+padding-right: 0.5rem;
+}
+.modal-scroll-area::-webkit-scrollbar {
+width: 6px;
+}
+.modal-scroll-area::-webkit-scrollbar-thumb {
+background-color: rgba(0, 0, 0, 0.2);
+border-radius: 4px;
+}
+
+.alamat-wrapper-profile {
+  position: relative;
+}
+
+.alamat-input-profile {
+  padding-right: 60px;
+}
+
+.alamat-ubah-link-profile {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 14px;
+  color: #007bff;
+  text-decoration: none;
+  font-weight: Bold;
+}
 
 .mt-6 {
   margin-top: 8.5rem;
@@ -189,60 +275,60 @@ section,
 
 @font-face {
   font-family: Poppins-Regular;
-  src: url('../fonts/Poppins/Poppins-Regular.ttf'); 
+  src: url('../fonts/Poppins/Poppins-Regular.ttf');
 }
 
 @font-face {
   font-family: Poppins-Light;
-  src: url('../fonts/Poppins/Poppins-Light.ttf'); 
+  src: url('../fonts/Poppins/Poppins-Light.ttf');
 }
 
 @font-face {
   font-family: Poppins-ExtraLight;
-  src: url('../fonts/Poppins/Poppins-ExtraLight.ttf'); 
+  src: url('../fonts/Poppins/Poppins-ExtraLight.ttf');
 }
 
 @font-face {
   font-family: Poppins-Medium;
-  src: url('../fonts/Poppins/Poppins-Medium.ttf'); 
+  src: url('../fonts/Poppins/Poppins-Medium.ttf');
 }
 
 @font-face {
   font-family: Poppins-Italic;
-  src: url('../fonts/Poppins/Poppins-Italic.ttf'); 
+  src: url('../fonts/Poppins/Poppins-Italic.ttf');
 }
 
 @font-face {
   font-family: Poppins-Bold;
-  src: url('../fonts/Poppins/Poppins-Bold.ttf'); 
+  src: url('../fonts/Poppins/Poppins-Bold.ttf');
 }
 
 @font-face {
   font-family: Poppins-SemiBold;
-  src: url('../fonts/Poppins/Poppins-SemiBold.ttf'); 
+  src: url('../fonts/Poppins/Poppins-SemiBold.ttf');
 }
 
 
 /*---------------------------------------------*/
 @font-face {
   font-family: PlayfairDisplay-Regular;
-  src: url('../fonts/PlayfairDisplay/PlayfairDisplay-Regular.ttf'); 
+  src: url('../fonts/PlayfairDisplay/PlayfairDisplay-Regular.ttf');
 }
 
 @font-face {
   font-family: PlayfairDisplay-Bold;
-  src: url('../fonts/PlayfairDisplay/PlayfairDisplay-Bold.ttf'); 
+  src: url('../fonts/PlayfairDisplay/PlayfairDisplay-Bold.ttf');
 }
 
 /*---------------------------------------------*/
 @font-face {
   font-family: Montserrat-Regular;
-  src: url('../fonts/Montserrat/Montserrat-Regular.ttf'); 
+  src: url('../fonts/Montserrat/Montserrat-Regular.ttf');
 }
 
 @font-face {
   font-family: Montserrat-Bold;
-  src: url('../fonts/Montserrat/Montserrat-Bold.ttf'); 
+  src: url('../fonts/Montserrat/Montserrat-Bold.ttf');
 }
 
 
@@ -286,7 +372,7 @@ section,
   position: relative;
   animation: loader-scale 1s ease-out infinite;
   top: 50%;
-  margin: -28px auto 0 auto; 
+  margin: -28px auto 0 auto;
 }
 
 @keyframes loader-scale {
@@ -297,7 +383,7 @@ section,
     opacity: 1; }
   100% {
     transform: scale(1);
-    opacity: 0; } 
+    opacity: 0; }
 }
 
 /*//////////////////////////////////////////////////////////////////
@@ -414,7 +500,7 @@ section,
   background-color: #333;
   width: 100%;
   height: 84px;
-  top: 0; 
+  top: 0;
   left: 0;
   right: 0;
 
@@ -546,7 +632,7 @@ section,
   -ms-box-shadow: 0 1px 5px 0px rgba(0,0,0,0.2);
 
   visibility: hidden;
-  opacity: 0; 
+  opacity: 0;
 }
 
 .sub-menu li {
@@ -571,7 +657,7 @@ section,
   color: #555;
 
   display: block;
-  padding: 8px 20px; 
+  padding: 8px 20px;
   width: 100%;
 
   transition: all 0.4s;
@@ -594,7 +680,7 @@ section,
 .sub-menu li:hover > .sub-menu {
   visibility: visible;
   opacity: 1;
-} 
+}
 
 .sub-menu li:hover {
   background-color: transparent;
@@ -714,7 +800,7 @@ section,
   font-size: 50px;
   line-height: 1.2;
   color: #333;
-  
+
   padding: 0px 30px 0px 0px;
   width: calc(100% - 70px);
   height: 100%;
@@ -830,8 +916,8 @@ section,
   max-width: calc(100% - 20px);
   max-height: 100%;
   position:absolute;
-  top: 0; 
-  left: 0; 
+  top: 0;
+  left: 0;
   bottom: 0;
   margin: auto;
 }
@@ -970,10 +1056,10 @@ section,
   right: 0;
   background-color: rgba(0,0,0,0.0);
   visibility: hidden;
-  
+
   -webkit-transition: all 0.4s;
   -o-transition: all 0.4s;
-  -moz-transition: all 0.4s;  
+  -moz-transition: all 0.4s;
   transition: all 0.4s;
 }
 
@@ -986,10 +1072,10 @@ section,
   top: 0;
   right: -400px;
   background-color: #fff;
-  
+
   -webkit-transition: all 0.4s;
   -o-transition: all 0.4s;
-  -moz-transition: all 0.34;  
+  -moz-transition: all 0.34;
   transition: all 0.4s;
 
   box-shadow: 0 3px 6px 0px rgba(0, 0, 0, 0.18);
@@ -1046,7 +1132,7 @@ section,
 
   -webkit-transition: all 0.4s;
   -o-transition: all 0.4s;
-  -moz-transition: all 0.34;  
+  -moz-transition: all 0.34;
   transition: all 0.4s;
 }
 
@@ -1066,10 +1152,10 @@ section,
   right: 0;
   background-color: rgba(0,0,0,0.0);
   visibility: hidden;
-  
+
   -webkit-transition: all 0.4s;
   -o-transition: all 0.4s;
-  -moz-transition: all 0.4s;  
+  -moz-transition: all 0.4s;
   transition: all 0.4s;
 }
 
@@ -1082,10 +1168,10 @@ section,
   top: 0;
   right: -400px;
   background-color: #fff;
-  
+
   -webkit-transition: all 0.4s;
   -o-transition: all 0.4s;
-  -moz-transition: all 0.34;  
+  -moz-transition: all 0.34;
   transition: all 0.4s;
 
   box-shadow: 0 3px 6px 0px rgba(0, 0, 0, 0.18);
@@ -1393,7 +1479,7 @@ section,
   color: rgba(0,0,0,0.3);
   position: absolute;
   opacity: 0;
-  
+
   top: 50%;
   -webkit-transform: translateY(-50%);
   -moz-transform: translateY(-50%);
@@ -1590,7 +1676,7 @@ section,
 .arrow-slick3 {
   font-size: 25px;
   color: #fff;
-  
+
   position: absolute;
   top: 0;
   width: 40px;
@@ -1868,7 +1954,7 @@ button.mfp-close {
   background-color: #FCD452;
   border-left: 1px solid #FCD452;
   border-bottom: 1px solid #e7e7e7;
-  
+
   transform-origin: center center;
   -webkit-transform: rotate(-45deg);
   -moz-transform: rotate(-45deg);
@@ -1964,7 +2050,7 @@ input.num-product {
 input.num-product::-webkit-outer-spin-button,
 input.num-product::-webkit-inner-spin-button {
   -webkit-appearance: none;
-  margin: 0; 
+  margin: 0;
 }
 
 /*//////////////////////////////////////////////////////////////////
@@ -2005,7 +2091,7 @@ input.num-product::-webkit-inner-spin-button {
   -o-transition: all 0.2s;
   -moz-transition: all 0.2s;
   transition: all 0.2s;
-  
+
   visibility: hidden;
   opacity: 0;
 }
@@ -2146,31 +2232,19 @@ input.num-product::-webkit-inner-spin-button {
   display: inline-block;
 }
 
-.status-pending {
+.status-diproses {
   background-color: #fff3cd;
   color: #856404;
   border: 1px solid #ffeeba;
 }
 
-.status-confirmed {
-  background-color: #cce5ff;
-  color: #004085;
-  border: 1px solid #b8daff;
-}
-
-.status-in-progress {
-  background-color: #d1ecf1;
-  color: #0c5460;
-  border: 1px solid #bee5eb;
-}
-
-.status-completed {
+.status-berhasil {
   background-color: #d4edda;
   color: #155724;
   border: 1px solid #c3e6cb;
 }
 
-.status-cancelled {
+.status-batal {
   background-color: #f8d7da;
   color: #721c24;
   border: 1px solid #f5c6cb;
@@ -2294,6 +2368,26 @@ input.num-product::-webkit-inner-spin-button {
 
 .block2-txt-child2 {
   width: 30px;
+}
+
+.btn-addwish-b2 .icon-heart2 {
+  opacity: 0;
+}
+
+.btn-addwish-b2:hover .icon-heart2 {
+  opacity: 1;
+}
+
+.btn-addwish-b2:hover .icon-heart1 {
+  opacity: 0;
+}
+
+.js-addedwish-b2 .icon-heart2 {
+  opacity: 1;
+}
+
+.js-addedwish-b2 .icon-heart1 {
+  opacity: 0;
 }
 
 /*---------------------------------------------*/
@@ -2622,7 +2716,7 @@ input.num-product::-webkit-inner-spin-button {
 
 
 /*==================================================================
-    SIZE SIZE SIZE SIZE SIZE SIZE SIZE SIZE SIZE SIZE SIZE SIZE SIZE 
+    SIZE SIZE SIZE SIZE SIZE SIZE SIZE SIZE SIZE SIZE SIZE SIZE SIZE
 ==================================================================*/
 
 
@@ -2845,7 +2939,7 @@ input.num-product::-webkit-inner-spin-button {
 
 
 /*==================================================================
-   BACKGROUND BACKGROUND BACKGROUND BACKGROUND BACKGROUND BACKGROUND 
+   BACKGROUND BACKGROUND BACKGROUND BACKGROUND BACKGROUND BACKGROUND
 ==================================================================*/
 .bg-none {background-color: transparent;}
 .bg0 {background-color: #fff;}
@@ -2978,7 +3072,7 @@ input.num-product::-webkit-inner-spin-button {
 
 
 /*==================================================================
- HOW HOW HOW HOW HOW HOW HOW HOW HOW HOW HOW HOW HOW HOW HOW HOW HOW 
+ HOW HOW HOW HOW HOW HOW HOW HOW HOW HOW HOW HOW HOW HOW HOW HOW HOW
 ==================================================================*/
 .plh0::-webkit-input-placeholder { color: #999999;}
 .plh0:-moz-placeholder { color: #999999;}
@@ -3487,7 +3581,7 @@ input.num-product::-webkit-inner-spin-button {
   .respon1 {
     font-size: 40px;
   }
-  
+
   /*---------------------------------------------*/
   .respon2 {
     font-size: 20px;
@@ -3507,7 +3601,7 @@ input.num-product::-webkit-inner-spin-button {
     padding-left: 60px;
   }
 
-  
+
 }
 
 
@@ -3548,22 +3642,22 @@ input.num-product::-webkit-inner-spin-button {
 
 @font-face {
   font-family: Poppins-Regular;
-  src: url('../fonts/poppins/Poppins-Regular.ttf'); 
+  src: url('../fonts/poppins/Poppins-Regular.ttf');
 }
 
 @font-face {
   font-family: Poppins-Medium;
-  src: url('../fonts/poppins/Poppins-Medium.ttf'); 
+  src: url('../fonts/poppins/Poppins-Medium.ttf');
 }
 
 @font-face {
   font-family: Poppins-Bold;
-  src: url('../fonts/poppins/Poppins-Bold.ttf'); 
+  src: url('../fonts/poppins/Poppins-Bold.ttf');
 }
 
 @font-face {
   font-family: Poppins-SemiBold;
-  src: url('../fonts/poppins/Poppins-SemiBold.ttf'); 
+  src: url('../fonts/poppins/Poppins-SemiBold.ttf');
 }
 
 
@@ -3573,8 +3667,8 @@ input.num-product::-webkit-inner-spin-button {
 [ RESTYLE TAG ]*/
 
 * {
-	margin: 0px; 
-	padding: 0px; 
+	margin: 0px;
+	padding: 0px;
 	box-sizing: border-box;
 }
 
@@ -3704,7 +3798,7 @@ iframe {
 }
 
 .container-login100 {
-  width: 100%;  
+  width: 100%;
   min-height: 100vh;
   display: -webkit-box;
   display: -webkit-flex;
@@ -3725,7 +3819,7 @@ iframe {
   background: #fff;
   border-radius: 10px;
   overflow: hidden;
-  padding: 20px 30px; 
+  padding: 20px 30px;
 }
 
 .my-img {
@@ -4023,4 +4117,4 @@ iframe {
     padding-left: 15px;
     padding-right: 15px;
   }
-} 
+}

@@ -7,7 +7,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ $title ?? 'Admin' }}</title>
     <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
-    
+
     <!-- Add these scripts before Livewire -->
     <script>
         window.livewire_app_url = '{{ config('app.url') }}';
@@ -18,7 +18,9 @@
             });
         });
     </script>
-    
+
+    <link rel="stylesheet" type="text/css" href="{{ asset('vendor/leaflet/leaflet.css') }}">
+
     @vite(['resources/admin/css/app.css', 'resources/admin/css/app-dark.css', 'resources/js/app.js', 'resources/admin/js/app.js'])
     @livewireStyles
 </head>
@@ -45,9 +47,13 @@
             return config;
         });
     </script>
+    <script src="{{ asset('vendor/leaflet/leaflet.js') }}"></script>
     
+
+
     @vite(['resources/admin/static/js/components/dark.js', 'resources/admin/static/js/components/toast.js', 'resources/admin/static/js/components/sweetalert.js'])
     @livewireScripts
     @stack('scripts')
 </body>
+
 </html>

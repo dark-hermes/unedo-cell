@@ -42,6 +42,11 @@ class Reparation extends Model
         return $this->morphMany(Fileable::class, 'fileable');
     }
 
+    public function transaction()
+    {
+        return $this->hasOne(Transaction::class);
+    }
+
     public function getStatusLabelAttribute()
     {
         return match ($this->status) {

@@ -23,12 +23,8 @@ class OptionSeeder extends Seeder
                 'value' => 'Jl. Diponegoro simpang 3 Sitangkola, Kec. Laguboti, Kab. Toba, Sumatera Utara',
             ],
             [
-                'key' => 'STORE_LATITUDE',
-                'value' => '2.349937974097413',
-            ],
-            [
-                'key' => 'STORE_LONGITUDE',
-                'value' => '99.1260279255131'
+                'key' => 'STORE_COORDINATE',
+                'value' => '2.3497151,99.1261255',
             ],
             [
                 'key' => 'STORE_PHONE',
