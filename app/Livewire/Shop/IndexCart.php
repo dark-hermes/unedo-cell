@@ -125,6 +125,8 @@ class IndexCart extends Component
             $order = Order::create([
                 'user_id' => Auth::id(),
                 'address' => $address->address,
+                'latitude' => $address->latitude,
+                'longitude' => $address->longitude,
                 'recipient_name' => $address->recipient_name,
                 'recipient_phone' => $address->phone,
                 'order_status' => 'pending',
