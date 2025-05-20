@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('address')->nullable();
+            $table->string('latitude')->nullable();
+            $table->string('longitude')->nullable();
             $table->string('recipient_name')->nullable();
             $table->string('recipient_phone')->nullable();
             $table->enum('order_status', ['pending', 'confirmed', 'shipped', 'completed', 'cancelled'])->default('pending');

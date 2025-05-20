@@ -3,7 +3,7 @@
         <div class="sidebar-header position-relative">
             <div class="d-flex justify-content-between align-items-center">
                 <div class="logo">
-                    <a href="{{ route('admin.dashboard.index') }}"><img src="{{ asset('logo.png') }}"
+                    <a href="{{ route('admin.dashboard') }}"><img src="{{ asset('logo.png') }}"
                             style = "height: 36px;" alt="Logo" srcset="" /></a>
                 </div>
                 <div class="theme-toggle d-flex gap-2 align-items-center mt-2">
@@ -43,7 +43,7 @@
             <ul class="menu">
                 <li class="sidebar-title">Menu</li>
 
-                <x-sidebar-item href="{{ route('admin.dashboard.index') }}" icon="bi bi-speedometer" label="Dashboard"
+                <x-sidebar-item href="{{ route('admin.dashboard') }}" icon="bi bi-speedometer" label="Dashboard"
                     active="{{ request()->is('admin/dashboard') }}" />
 
                 <x-sidebar-item href="{{ route('admin.home-contents.index') }}" icon="bi bi-speedometer"
