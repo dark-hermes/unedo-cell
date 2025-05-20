@@ -34,6 +34,32 @@ Paragrap        : 18px/1.6 '', Arial, sans-serif;
 Input, textarea : 14px/1.6 '', Arial, sans-serif;
 -------------------------------------------------------------------*/
 
+.main-menu a {
+  text-decoration: none;
+  border: none;
+}
+.main-menu a:hover {
+  text-decoration: none;
+  border: none;
+}
+
+.p-t-27 a {
+  text-decoration: none;
+  border: none;
+  outline: none;
+  box-shadow: none;
+}
+.p-t-27 a:hover {
+  text-decoration: none;
+  border: none;
+  outline: none;
+  box-shadow: none;
+}
+
+.col-sm-6 ul {
+    padding-left: 0;
+    margin-left: 0;
+}
 
 .card-alamat {
   border-left: 4px solid yellow;
@@ -2482,6 +2508,7 @@ input.num-product::-webkit-inner-spin-button {
   font-family: Poppins-Regular;
   font-size: 13px;
   line-height: 1.923;
+  text-decoration: none;
 }
 
 .stext-108 {
@@ -3688,6 +3715,7 @@ a {
 	-webkit-transition: all 0.4s;
   -o-transition: all 0.4s;
   -moz-transition: all 0.4s;
+  text-decoration: none;
 }
 
 a:focus {
