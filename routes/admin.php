@@ -1,11 +1,13 @@
 <?php
 
+use App\Livewire\Admin\Dashboard;
 use Illuminate\Support\Facades\Route;
 use App\Livewire\Admin\Users\EditUser;
 use App\Livewire\Admin\Order\ShowOrder;
 use App\Livewire\Admin\Users\IndexUser;
 use App\Livewire\Admin\Order\IndexOrder;
 use App\Livewire\Admin\Users\CreateUser;
+use App\Livewire\Admin\Option\EditOption;
 use App\Livewire\Admin\Option\IndexOption;
 use App\Livewire\Admin\Products\EditProduct;
 use App\Livewire\Admin\Users\IndexUserAdmin;
@@ -23,7 +25,6 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Livewire\Admin\HomeContents\EditHomeContent;
 use App\Livewire\Admin\HomeContents\IndexHomeContent;
 use App\Livewire\Admin\HomeContents\CreateHomeContent;
-use App\Livewire\Admin\Option\EditOption;
 use App\Livewire\Admin\Products\Categories\EditProductCategory;
 use App\Livewire\Admin\Products\Categories\IndexProductCategory;
 use App\Livewire\Admin\Products\Categories\CreateProductCategory;
@@ -31,8 +32,8 @@ use App\Livewire\Admin\Products\Categories\CreateProductCategory;
 Route::middleware(['web', 'auth', 'role:admin'])
     ->name('admin.')
     ->group(function () {
-        Route::get('/dashboard', [DashboardController::class, 'index'])
-            ->name('dashboard.index');
+        Route::get('/dashboard', Dashboard::class)
+            ->name('dashboard');
 
         Route::get('/home-contents', IndexHomeContent::class)
             ->name('home-contents.index');
