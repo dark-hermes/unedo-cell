@@ -3,30 +3,30 @@
         <div class="row">
             <div class="col-sm-6 col-lg-3 p-b-50">
                 <h4 class="stext-301 cl0 p-b-30">
-                    Categories
+                    Kategori
                 </h4>
 
                 <ul>
                     <li class="p-b-10">
-                        <a href="products" class="stext-107 cl7 hov-cl1 trans-04">
+                        <a href="#" class="stext-107 cl7 hov-cl1 trans-04">
                             Headset
                         </a>
                     </li>
 
                     <li class="p-b-10">
-                        <a href="products" class="stext-107 cl7 hov-cl1 trans-04">
+                        <a href="#" class="stext-107 cl7 hov-cl1 trans-04">
                             Charger
                         </a>
                     </li>
 
                     <li class="p-b-10">
-                        <a href="products" class="stext-107 cl7 hov-cl1 trans-04">
+                        <a href="#" class="stext-107 cl7 hov-cl1 trans-04">
                             Case
                         </a>
                     </li>
 
                     <li class="p-b-10">
-                        <a href="products" class="stext-107 cl7 hov-cl1 trans-04">
+                        <a href="#" class="stext-107 cl7 hov-cl1 trans-04">
                             Accessories
                         </a>
                     </li>
@@ -35,25 +35,25 @@
 
             <div class="col-sm-6 col-lg-3 p-b-50">
                 <h4 class="stext-301 cl0 p-b-30">
-                    Help
+                    Bantuan
                 </h4>
 
                 <ul>
                     <li class="p-b-10">
                         <a href="#" class="stext-107 cl7 hov-cl1 trans-04">
-                            Track Order
+                            Lacak Order
                         </a>
                     </li>
 
                     <li class="p-b-10">
                         <a href="#" class="stext-107 cl7 hov-cl1 trans-04">
-                            Returns 
+                            Pengembalian
                         </a>
                     </li>
 
                     <li class="p-b-10">
                         <a href="#" class="stext-107 cl7 hov-cl1 trans-04">
-                            Shipping
+                            Pengiriman
                         </a>
                     </li>
 
@@ -67,7 +67,7 @@
 
             <div class="col-sm-6 col-lg-3 p-b-50">
                 <h4 class="stext-301 cl0 p-b-30">
-                    GET IN TOUCH
+                    HUBUNGI KAMI
                 </h4>
 
                 <p class="stext-107 cl7 size-201">
@@ -88,7 +88,7 @@
 
             <div class="col-sm-6 col-lg-3 p-b-50">
                 <h4 class="stext-301 cl0 p-b-30">
-                    Find Us
+                    TEMUKAN KAMI
                 </h4>
 
                 <form>
