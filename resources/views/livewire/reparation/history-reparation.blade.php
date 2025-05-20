@@ -81,11 +81,10 @@
                                                     </span>
                                                 </td>
                                                 <td class="column-9">
-                                                    @if($reparation->status === 'confirmed' && $reparation->price)
-                                                        <a href="#" 
+                                                    @if($reparation->status === 'completed' && $reparation->reparationTransaction->transaction_status === 'pending')
+                                                        <a href="{{ route('reparations.payment', $reparation->id) }}" 
                                                            class="flex-c-m stext-101 cl0 size-105 bg1 bor1 hov-btn1 p-lr-15 trans-04 pointer" 
-                                                           style="font-size: 0.8rem; padding: 6px 6px; line-height: 1; height: 35px; display: inline-flex; align-items: center;"
-                                                           wire:click.prevent="payReparation({{ $reparation->id }})">
+                                                           style="font-size: 0.8rem; padding: 6px 6px; line-height: 1; height: 35px; display: inline-flex; align-items: center;">
                                                             Bayar
                                                         </a>
                                                     @elseif(in_array($reparation->status, ['completed', 'cancelled']))

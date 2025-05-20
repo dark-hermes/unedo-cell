@@ -16,6 +16,7 @@ use App\Http\Controllers\PaymentController;
 use App\Livewire\Reparation\FormReparation;
 use App\Livewire\Reparation\HistoryReparation;
 use App\Http\Controllers\Auth\GoogleAuthController;
+use App\Livewire\Reparations\ReparationPayment;
 
 Route::get('auth/google', [GoogleAuthController::class, 'redirectToGoogle'])
     ->name('auth.google.redirect');
@@ -53,6 +54,14 @@ Route::post('/payment/notification', [PaymentController::class, 'handleNotificat
 
 Route::get('/reparations/history', HistoryReparation::class)
     ->name('reparations.history')
+    ->middleware('auth', 'role:user');
+
+Route::get('/reparations/{reparation}/payment', ReparationPayment::class)
+    ->name('reparations.payment')
+    ->middleware('auth', 'role:user');
+
+Route::get('/reparations/{reparationId}/payment/success', [PaymentController::class, 'reparationPaymentSuccess'])
+    ->name('reparations.payment.success')
     ->middleware('auth', 'role:user');
 
 Route::get('/reparations', FormReparation::class)

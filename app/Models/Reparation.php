@@ -22,6 +22,21 @@ class Reparation extends Model
         'status_label',
     ];
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::updated(function ($model) {
+            if ($model->status === 'completed') {
+                $model->reparationTransaction()->create([
+                    'user_id' => $model->user_id,
+                    'transaction_code' => 'REPAIR-' . strtoupper(uniqid()),
+                    'amount' => $model->price,
+                ]);
+            }
+        });
+    }
+
     public function getFileUrlAttribute()
     {
         return $this->fileable ? $this->fileable->file_url : null;
@@ -42,9 +57,9 @@ class Reparation extends Model
         return $this->morphMany(Fileable::class, 'fileable');
     }
 
-    public function transaction()
+    public function reparationTransaction()
     {
-        return $this->hasOne(Transaction::class);
+        return $this->hasOne(ReparationTransaction::class);
     }
 
     public function getStatusLabelAttribute()

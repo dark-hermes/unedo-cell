@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
+use App\Models\Reparation;
 use Illuminate\Http\Request;
 use App\Services\MidtransService;
 use Illuminate\Support\Facades\Auth;
@@ -110,5 +111,31 @@ class PaymentController extends Controller
         }
 
         return view('shop.payment.success', compact('order'));
+    }
+
+    public function reparationPaymentSuccess($reparationId)
+    {
+        $reparation = Reparation::with('reparationTransaction')->findOrFail($reparationId);
+
+        if ($reparation->reparationTransaction->transaction_status !== 'settlement') {
+            $midtransService = new MidtransService();
+            $status = $midtransService->checkStatus($reparation->reparationTransaction->transaction_code);
+
+            if ($status->transaction_status === 'settlement') {
+                $reparation->reparationTransaction()->update([
+                    'transaction_status' => 'settlement',
+                    'payment_method' => $status->payment_type,
+                    'settlement_time' => now(),
+                ]);
+                $reparation->update(['order_status' => 'confirmed']);
+
+                $telegramService = new TelegramNotificationService();
+                $telegramService->sendReparationPaymentNotification($reparation);
+            } else {
+                return redirect()->route('payment.checkout', ['reparation' => $reparationId])
+                    ->with('error', 'Pembayaran belum berhasil, silakan coba lagi.');
+            }
+        }
+        return view('reparations.payment.success', compact('reparation'));
     }
 }

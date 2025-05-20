@@ -65,4 +65,17 @@ class TelegramNotificationService
 
         return $this->sendToAdmin($message);
     }
+
+    public function sendReparationPaymentNotification($reparation)
+    {
+        $message = "Pembayaran untuk reparasi {$reparation->reparationTransaction->transaction_code} telah diterima.\n\n";
+        $message .= "Nama: {$reparation->user->name}\n";
+        $message .= "Barang: {$reparation->item_name}\n";
+        $message .= "Kerusakan: {$reparation->description}\n\n";
+        $message .= "Total Bayar: {$reparation->price}\n";
+        $message .= "Metode Pembayaran: {$reparation->reparationTransaction->payment_method}\n";
+        $message .= "URL Permintaan: " . route('admin.reparations.show', ['reparation' => $reparation->id]) . "\n";
+
+        return $this->sendToAdmin($message);
+    }
 }

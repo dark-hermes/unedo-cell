@@ -36,7 +36,12 @@
                                         @elseif ($reparation->status == 'in_progress')
                                             <span class="badge bg-info">{{ $reparation->status_label }}</span>
                                         @elseif ($reparation->status == 'completed')
-                                            <span class="badge bg-success">{{ $reparation->status_label }}</span>
+                                            {{-- <span class="badge bg-success">{{ $reparation->status_label }}</span> --}}
+                                            @if ($reparation->reparationTransaction->transaction_status == 'pending')
+                                                <span class="badge bg-warning text-dark">Menunggu Pembayaran</span>
+                                            @else
+                                                <span class="badge bg-success">{{ $reparation->status_label }}</span>
+                                            @endif
                                         @elseif ($reparation->status == 'cancelled')
                                             <span class="badge bg-danger">{{ $reparation->status_label }}</span>
                                         @endif
@@ -156,7 +161,7 @@
                             </div>
 
                             <!-- Form Update Harga -->
-                            @if (in_array($reparation->status, ['confirmed', 'in_progress']))
+                            @if (in_array($reparation->status, ['in_progress']))
                                 <div class="border rounded p-3 mt-3">
                                     <h5 class="mb-3">Perbarui Biaya Perbaikan</h5>
                                     <form>
