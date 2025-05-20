@@ -53,42 +53,44 @@
                         <i class="zmdi zmdi-favorite-outline"></i>
                     </a>
 
-                    <div class="dropdown notification-dropdown">
-                        <a href="#"
-                            class="dropdown-toggle icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti"
-                            data-notify="{{ $unreadCount }}">
-                            <i class="zmdi zmdi-notifications"></i>
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-right notification-menu">
-                            <li class="notification-header">
-                                <h6>Notifikasi</h6>
-                                @if ($unreadCount > 0)
-                                    <a href="#" wire:click.prevent="markAllAsRead" class="mark-all-read">Tandai
-                                        semua dibaca</a>
-                                @endif
-                            </li>
-                            @forelse($notifications as $notification)
-                                <li class="notification-item {{ is_null($notification->read_at) ? 'unread' : '' }}">
-                                    <a href="{{ $notification->data['action_url'] ?? $notification->data['action'] }}"
-                                        class="d-flex align-items-center">
-                                        <div class="notification-icon">
-                                            <i class="zmdi {{ $notification->data['icon'] ?? 'zmdi-info' }}"></i>
-                                        </div>
-                                        <div class="notification-content">
-                                            <p class="notification-title">{{ $notification->data['title'] }}</p>
-                                            <p class="notification-message">{{ $notification->data['message'] }}</p>
-                                            <small
-                                                class="notification-time">{{ $notification->created_at->diffForHumans() }}</small>
-                                        </div>
-                                    </a>
+                    @auth
+                        <div class="dropdown notification-dropdown">
+                            <a href="#"
+                                class="dropdown-toggle icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti"
+                                data-notify="{{ $unreadCount }}">
+                                <i class="zmdi zmdi-notifications"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-right notification-menu">
+                                <li class="notification-header">
+                                    <h6>Notifikasi</h6>
+                                    @if ($unreadCount > 0)
+                                        <a href="#" wire:click.prevent="markAllAsRead" class="mark-all-read">Tandai
+                                            semua dibaca</a>
+                                    @endif
                                 </li>
-                            @empty
-                                <li class="empty-notification">
-                                    <p>Tidak ada notifikasi</p>
-                                </li>
-                            @endforelse
-                        </ul>
-                    </div>
+                                @forelse($notifications as $notification)
+                                    <li class="notification-item {{ is_null($notification->read_at) ? 'unread' : '' }}">
+                                        <a href="{{ $notification->data['action_url'] ?? $notification->data['action'] }}"
+                                            class="d-flex align-items-center">
+                                            <div class="notification-icon">
+                                                <i class="zmdi {{ $notification->data['icon'] ?? 'zmdi-info' }}"></i>
+                                            </div>
+                                            <div class="notification-content">
+                                                <p class="notification-title">{{ $notification->data['title'] }}</p>
+                                                <p class="notification-message">{{ $notification->data['message'] }}</p>
+                                                <small
+                                                    class="notification-time">{{ $notification->created_at->diffForHumans() }}</small>
+                                            </div>
+                                        </a>
+                                    </li>
+                                @empty
+                                    <li class="empty-notification">
+                                        <p>Tidak ada notifikasi</p>
+                                    </li>
+                                @endforelse
+                            </ul>
+                        </div>
+                    @endauth
 
                     <!-- Profile Dropdown -->
                     <div class="dropdown">
