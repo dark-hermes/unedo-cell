@@ -755,20 +755,31 @@ section,
 .icon-header-noti::after {
   content: attr(data-notify);
   font-family: Poppins-Regular;
-  font-size: 12px;
+  font-size: 10px;
   color: #333;
   line-height: 15px;
   text-align: center;
 
   display: block;
   position: absolute;
-  top: -7px;
-  right: 0;
+  top: -6px;
+  right: -10px;
   min-width: 15px;
   height: 15px;
-  padding: 0 3px;
+  padding: 0 4px;
   background-color: #FCD452;
+  border-radius: 50%;
 }
+
+.icon-header-item {
+  position: relative;
+}
+
+.notification-dropdown > a.icon-header-noti::after {
+  top: 0px;
+  right: -7px;
+}
+
 
 /*---------------------------------------------*/
 .wrap-header-mobile .wrap-icon-header {

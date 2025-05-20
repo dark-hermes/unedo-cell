@@ -56,8 +56,8 @@
                     @auth
                         <div class="dropdown notification-dropdown">
                             <a href="#"
-                                class="dropdown-toggle icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti"
-                                data-notify="{{ $unreadCount }}">
+                            class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti"
+                            data-notify="{{ $unreadCount }}">
                                 <i class="zmdi zmdi-notifications"></i>
                             </a>
                             <ul class="dropdown-menu dropdown-menu-right notification-menu">
