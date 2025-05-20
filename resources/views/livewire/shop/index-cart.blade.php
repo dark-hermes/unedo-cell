@@ -169,6 +169,17 @@
                                                         </option>
                                                     @endforeach
                                                 </select>
+
+                                                @if ($addresses->isEmpty())
+                                                    <div class="alert alert-danger mt-2">
+                                                        Anda belum menambahkan alamat pengiriman. Silakan tambahkan alamat
+                                                        terlebih dahulu.
+                                                        <br>
+                                                        <a href="{{ route('address.create') }}"
+                                                            class="text-primary">Tambah Alamat</a>
+                                                    </div>
+
+                                                @endif
                                             </div>
                                         @endif
                                     </div>
