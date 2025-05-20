@@ -14,8 +14,8 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         User::create([
-            'name' => 'Unedo Cell',
-            'email' => 'unedo@mail.test',
+            'name' => 'Unedo Cell Admin',
+            'email' => env('MAIL_FROM_ADDRESS'),
             'password' => bcrypt('password'),
             'is_active' => true,
             'phone' => preg_replace('/[^\d]/', '', fake()->phoneNumber()),
@@ -23,7 +23,7 @@ class UserSeeder extends Seeder
 
         $user = User::create([
             'name' => 'Test User',
-            'email' => 'user@mail.test',
+            'email' => env('USERTEST_MAIL'),
             'password' => bcrypt('password'),
             'is_active' => true,
             

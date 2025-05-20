@@ -145,8 +145,16 @@ class IndexCart extends Component
                 $item->delete();
             }
 
+            // Send notification to admin
             $telegramService = new TelegramNotificationService();
             $telegramService->sendOrderNotification($order);
+            
+            $admins = User::whereHas('roles', function ($query) {
+                $query->where('name', 'admin');
+            })->get();
+            foreach ($admins as $admin) {
+                $admin->notify(new \App\Notifications\Shop\OrderCreated($order));
+            }
 
             $this->dispatch('swal', [
                 'title' => 'Checkout Berhasil',

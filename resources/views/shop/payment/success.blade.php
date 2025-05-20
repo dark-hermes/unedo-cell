@@ -27,7 +27,7 @@
         </p>
         
         <div class="mt-6">
-            <a href="{{ route('reparations.history') }}" 
+            <a href="{{ route('orders.history') }}" 
                class="text-green-600 hover:text-green-800 font-medium">
                 <i class="fas fa-arrow-right mr-1"></i> Klik di sini jika tidak otomatis redirect
             </a>
@@ -45,7 +45,7 @@
             
             if (seconds <= 0) {
                 clearInterval(countdown);
-                window.location.href = "{{ route('reparations.history') }}";
+                window.location.href = "{{ route('orders.history') }}";
             }
         }, 1000);
     </script>

@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Shop;
 
+use App\Models\User;
 use App\Models\Order;
 use Livewire\Component;
 use Livewire\Attributes\Layout;
@@ -70,6 +71,16 @@ class OrderHistory extends Component
                     'reason' => 'sale',
                     'note' => $order->user->name . ' : ' . $order->user->phone . ' - ' . $order->recipient_name . ' : ' . $order->recipient_phone,
                 ]);
+            }
+
+            // Notify the user about the order completion
+            $order->user->notify(new \App\Notifications\Shop\OrderCompleted($order, $order->user->getRoleNames()[0]));
+            // Notify the admin about the order completion
+            $admins = User::whereHas('roles', function ($query) {
+                $query->where('name', 'admin');
+            })->get();
+            foreach ($admins as $admin) {
+                $admin->notify(new \App\Notifications\Shop\OrderCompleted($order, $admin->getRoleNames()[0]));
             }
             
             $this->dispatch('swal:confirm', [

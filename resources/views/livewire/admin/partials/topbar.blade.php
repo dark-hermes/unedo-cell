@@ -5,9 +5,8 @@
                 <i class="bi bi-justify fs-3"></i>
             </a>
 
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -17,8 +16,7 @@
                             data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="bi bi-envelope bi-sub fs-4"></i>
                         </a>
-                        <ul class="dropdown-menu dropdown-menu-lg-end"
-                            aria-labelledby="dropdownMenuButton">
+                        <ul class="dropdown-menu dropdown-menu-lg-end" aria-labelledby="dropdownMenuButton">
                             <li>
                                 <h6 class="dropdown-header">
                                     Mail
@@ -29,54 +27,35 @@
                             </li>
                         </ul>
                     </li>
-                    <li class="nav-item dropdown me-3">
+                    <li class="nav-item dropdown me-3" wire:ignore>
                         <a class="nav-link active dropdown-toggle text-gray-600" href="#"
-                            data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false">
+                            wire:click="toggleNotifications" data-bs-toggle="dropdown" data-bs-display="static"
+                            aria-expanded="false">
                             <i class="bi bi-bell bi-sub fs-4"></i>
-                            <span class="badge badge-notification bg-danger">7</span>
+                            <span class="badge badge-notification bg-danger">
+                                {{ $unreadCount }}
+                            </span>
                         </a>
                         <ul class="dropdown-menu dropdown-center dropdown-menu-sm-end notification-dropdown"
                             aria-labelledby="dropdownMenuButton">
                             <li class="dropdown-header">
                                 <h6>Notifications</h6>
                             </li>
-                            <li class="dropdown-item notification-item">
-                                <a class="d-flex align-items-center" href="#">
-                                    <div class="notification-icon bg-primary">
-                                        <i class="bi bi-cart-check"></i>
-                                    </div>
-                                    <div class="notification-text ms-4">
-                                        <p class="notification-title font-bold">
-                                            Successfully check
-                                            out
-                                        </p>
-                                        <p class="notification-subtitle font-thin text-sm">
-                                            Order ID #256
-                                        </p>
-                                    </div>
-                                </a>
-                            </li>
-                            <li class="dropdown-item notification-item">
-                                <a class="d-flex align-items-center" href="#">
-                                    <div class="notification-icon bg-success">
-                                        <i class="bi bi-file-earmark-check"></i>
-                                    </div>
-                                    <div class="notification-text ms-4">
-                                        <p class="notification-title font-bold">
-                                            Homework submitted
-                                        </p>
-                                        <p class="notification-subtitle font-thin text-sm">
-                                            Algebra math
-                                            homework
-                                        </p>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <p class="text-center py-2 mb-0">
-                                    <a href="#">See all notification</a>
-                                </p>
-                            </li>
+                            @foreach ($notifications as $notification)
+                                <li class="dropdown-item notification-item">
+                                    <a class="d-flex align-items-center"
+                                        href="{{ $notification->data['action_url'] ?? $notification->data['action'] }}">
+                                        <div class="notification-text ms-4">
+                                            <p class="notification-title font-bold">
+                                                {{ $notification->data['title'] }}
+                                            </p>
+                                            <p class="notification-subtitle font-thin text-sm">
+                                                {{ $notification->data['message'] }}
+                                            </p>
+                                        </div>
+                                    </a>
+                                </li>
+                            @endforeach
                         </ul>
                     </li>
                 </ul>
@@ -93,8 +72,7 @@
                             </div>
                             <div class="user-img d-flex align-items-center">
                                 <div class="avatar avatar-md">
-                                    <img src="{{ auth()->user()->image_url }}"
-                                        alt={{ auth()->user()->name }} />
+                                    <img src="{{ auth()->user()->image_url }}" alt={{ auth()->user()->name }} />
                                 </div>
                             </div>
                         </div>
@@ -107,18 +85,15 @@
                             </h6>
                         </li>
                         <li>
-                            <a class="dropdown-item" href="#"><i
-                                    class="icon-mid bi bi-person me-2"></i>
+                            <a class="dropdown-item" href="#"><i class="icon-mid bi bi-person me-2"></i>
                                 My Profile</a>
                         </li>
                         <li>
-                            <a class="dropdown-item" href="#"><i
-                                    class="icon-mid bi bi-gear me-2"></i>
+                            <a class="dropdown-item" href="#"><i class="icon-mid bi bi-gear me-2"></i>
                                 Settings</a>
                         </li>
                         <li>
-                            <a class="dropdown-item" href="#"><i
-                                    class="icon-mid bi bi-wallet me-2"></i>
+                            <a class="dropdown-item" href="#"><i class="icon-mid bi bi-wallet me-2"></i>
                                 Wallet</a>
                         </li>
                         <li>
@@ -140,4 +115,16 @@
             </div>
         </div>
     </nav>
+
+    @push('scripts')
+        <script>
+            document.addEventListener('livewire:initialized', () => {
+                const notificationDropdown = document.querySelector('.notification-dropdown');
+
+                notificationDropdown.addEventListener('shown.bs.dropdown', () => {
+                    @this.markAllAsRead();
+                });
+            });
+        </script>
+    @endpush
 </header>

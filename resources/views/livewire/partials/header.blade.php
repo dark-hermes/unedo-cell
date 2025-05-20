@@ -42,14 +42,53 @@
                     </div>
 
                     <a href="{{ route('cart.index') }}"
-                        class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti">
+                        class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti"
+                        data-notify="{{ $cartCount }}">
                         <i class="zmdi zmdi-shopping-cart"></i>
                     </a>
 
                     <a href="{{ route('wishlist.index') }}"
-                        class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti">
+                        class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti"
+                        data-notify="{{ $wishlistCount }}">
                         <i class="zmdi zmdi-favorite-outline"></i>
                     </a>
+
+                    <div class="dropdown notification-dropdown">
+                        <a href="#"
+                            class="dropdown-toggle icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti"
+                            data-notify="{{ $unreadCount }}">
+                            <i class="zmdi zmdi-notifications"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-right notification-menu">
+                            <li class="notification-header">
+                                <h6>Notifikasi</h6>
+                                @if ($unreadCount > 0)
+                                    <a href="#" wire:click.prevent="markAllAsRead" class="mark-all-read">Tandai
+                                        semua dibaca</a>
+                                @endif
+                            </li>
+                            @forelse($notifications as $notification)
+                                <li class="notification-item {{ is_null($notification->read_at) ? 'unread' : '' }}">
+                                    <a href="{{ $notification->data['action_url'] ?? $notification->data['action'] }}"
+                                        class="d-flex align-items-center">
+                                        <div class="notification-icon">
+                                            <i class="zmdi {{ $notification->data['icon'] ?? 'zmdi-info' }}"></i>
+                                        </div>
+                                        <div class="notification-content">
+                                            <p class="notification-title">{{ $notification->data['title'] }}</p>
+                                            <p class="notification-message">{{ $notification->data['message'] }}</p>
+                                            <small
+                                                class="notification-time">{{ $notification->created_at->diffForHumans() }}</small>
+                                        </div>
+                                    </a>
+                                </li>
+                            @empty
+                                <li class="empty-notification">
+                                    <p>Tidak ada notifikasi</p>
+                                </li>
+                            @endforelse
+                        </ul>
+                    </div>
 
                     <!-- Profile Dropdown -->
                     <div class="dropdown">
@@ -164,6 +203,34 @@
         </div>
     </div>
 
+    @push('scripts')
+        <script>
+            document.addEventListener('livewire:initialized', () => {
+                // Initialize dropdown
+                const notificationDropdown = new bootstrap.Dropdown(
+                    document.querySelector('.notification-dropdown .dropdown-toggle')
+                );
+
+                // Refresh notifications when dropdown is shown
+                document.querySelector('.notification-dropdown').addEventListener('shown.bs.dropdown', () => {
+                    @this.loadNotifications();
+                });
+
+                // Handle click outside
+                document.addEventListener('click', (e) => {
+                    if (!e.target.closest('.notification-dropdown')) {
+                        const dropdown = bootstrap.Dropdown.getInstance(
+                            document.querySelector('.notification-dropdown .dropdown-toggle')
+                        );
+                        if (dropdown) {
+                            dropdown.hide();
+                        }
+                    }
+                });
+            });
+        </script>
+    @endpush
+
     <style>
         .dropdown {
             position: relative;
@@ -204,6 +271,104 @@
 
         .dropdown:hover .dropdown-menu {
             display: block;
+        }
+    </style>
+
+    <style>
+        /* Notification Dropdown */
+        .notification-dropdown {
+            position: relative;
+        }
+
+        .notification-menu {
+            width: 350px;
+            max-height: 400px;
+            overflow-y: auto;
+            padding: 0;
+            border: 1px solid #eee;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .notification-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 15px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #eee;
+        }
+
+        .notification-header h6 {
+            margin: 0;
+            font-weight: 600;
+        }
+
+        .mark-all-read {
+            font-size: 12px;
+            color: #6c757d;
+        }
+
+        .notification-item {
+            border-bottom: 1px solid #f1f1f1;
+        }
+
+        .notification-item.unread {
+            background-color: #f8f9fa;
+        }
+
+        .notification-item a {
+            display: flex;
+            padding: 10px 15px;
+            color: #333;
+        }
+
+        .notification-item a:hover {
+            background-color: #f1f1f1;
+            text-decoration: none;
+        }
+
+        .notification-icon {
+            margin-right: 10px;
+            color: #6c757d;
+            font-size: 18px;
+        }
+
+        .notification-content {
+            flex: 1;
+        }
+
+        .notification-title {
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+
+        .notification-message {
+            color: #6c757d;
+            font-size: 13px;
+            margin-bottom: 5px;
+        }
+
+        .notification-time {
+            color: #adb5bd;
+            font-size: 11px;
+        }
+
+        .empty-notification {
+            padding: 15px;
+            text-align: center;
+            color: #6c757d;
+        }
+
+        .notification-footer {
+            text-align: center;
+            padding: 10px;
+            background: #f8f9fa;
+            border-top: 1px solid #eee;
+        }
+
+        .notification-footer a {
+            color: #6c757d;
+            font-size: 13px;
         }
     </style>
 </header>

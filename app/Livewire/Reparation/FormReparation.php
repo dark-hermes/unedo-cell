@@ -2,13 +2,14 @@
 
 namespace App\Livewire\Reparation;
 
+use App\Models\User;
 use Livewire\Component;
 use App\Models\Fileable;
 use App\Models\Reparation;
-use App\Services\TelegramNotificationService;
 use Livewire\WithFileUploads;
 use Livewire\Attributes\Layout;
 use Illuminate\Support\Facades\Auth;
+use App\Services\TelegramNotificationService;
 
 #[Layout('components.layouts.app')]
 class FormReparation extends Component
@@ -44,10 +45,6 @@ class FormReparation extends Component
             'status' => $this->status,
         ]);
 
-        logger()->info('File Bukti Upload', [
-            'files' => $this->files
-        ]);
-
         // Handle file uploads
         if ($this->files) {
             logger()->info('File Bukti Upload', [
@@ -67,6 +64,14 @@ class FormReparation extends Component
 
         $telegramService = new TelegramNotificationService();
         $telegramService->sendReparationNotification($reparation);
+
+        // Notify the admin
+        $admins = User::whereHas('roles', function ($query) {
+            $query->where('name', 'admin');
+        })->get();
+        foreach ($admins as $admin) {
+            $admin->notify(new \App\Notifications\Reparation\RequestCreated($reparation));
+        }
 
         // Reset form
         $this->reset(['item_name', 'item_type', 'item_brand', 'description', 'files']);

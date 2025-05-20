@@ -34,6 +34,8 @@ class ShowReparation extends Component
         try {
             $this->reparation->update(['status' => 'confirmed']);
 
+            // Notify the user about the confirmation
+            $this->reparation->user->notify(new \App\Notifications\Reparation\RequestConfirmed($this->reparation));
             $this->dispatch('show-toast', [
                 'message' => 'Perbaikan telah dikonfirmasi!',
                 'type' => 'success',
@@ -54,6 +56,10 @@ class ShowReparation extends Component
     {
         try {
             $this->reparation->update(['status' => 'in_progress']);
+
+            // Notify the user about the start of the reparation
+            $this->reparation->user->notify(new \App\Notifications\Reparation\RequestProgressed($this->reparation));
+
             $this->dispatch('show-toast', [
                 'message' => 'Perbaikan telah dimulai!',
                 'type' => 'success',
@@ -82,6 +88,9 @@ class ShowReparation extends Component
                 'message' => 'Perbaikan telah selesai!',
                 'type' => 'success',
             ]);
+
+            // Notify the user about the completion
+            $this->reparation->user->notify(new \App\Notifications\Reparation\ReparationCompleted($this->reparation));
         } catch (\Exception $e) {
             $this->dispatch('show-toast', [
                 'message' => 'Gagal menyelesaikan perbaikan: ' . $e->getMessage(),

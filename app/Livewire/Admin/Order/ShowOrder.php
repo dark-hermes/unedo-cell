@@ -52,6 +52,8 @@ class ShowOrder extends Component
                     'amount' => $freshOrder->total_price,
                 ]);
 
+                $freshOrder->user->notify(new \App\Notifications\Shop\OrderConfirmed($freshOrder));
+
                 // Refresh all component data
                 $this->order = $freshOrder->fresh();
             });

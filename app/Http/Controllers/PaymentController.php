@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Order;
 use App\Models\Reparation;
 use Illuminate\Http\Request;
@@ -102,10 +103,23 @@ class PaymentController extends Controller
                 ]);
                 $order->update(['order_status' => 'confirmed']);
 
+                $order = $order->fresh();
+
+                // Notifikasi ke user
+                $order->user->notify(new \App\Notifications\Shop\OrderPaid($order, $order->user->getRoleNames()[0]));
+
+                // Notifikasi ke admin
                 $telegramService = new TelegramNotificationService();
                 $telegramService->sendPaymentNotification($order);
+
+                $admins = User::whereHas('roles', function ($query) {
+                    $query->where('name', 'admin');
+                })->get();
+                foreach ($admins as $admin) {
+                    $admin->notify(new \App\Notifications\Shop\OrderPaid($order, $admin->getRoleNames()[0]));
+                }
             } else {
-                return redirect()->route('payment.checkout', ['order' => $orderId])
+                return redirect()->route('orders.payment', ['order' => $orderId])
                     ->with('error', 'Pembayaran belum berhasil, silakan coba lagi.');
             }
         }
@@ -127,12 +141,21 @@ class PaymentController extends Controller
                     'payment_method' => $status->payment_type,
                     'settlement_time' => now(),
                 ]);
-                $reparation->update(['order_status' => 'confirmed']);
 
                 $telegramService = new TelegramNotificationService();
                 $telegramService->sendReparationPaymentNotification($reparation);
+
+                // Notifikasi ke user
+                $reparation->user->notify(new \App\Notifications\Reparation\ReparationPaid($reparation, $reparation->user->getRoleNames()[0]));
+                // Notifikasi ke admin
+                $admins = User::whereHas('roles', function ($query) {
+                    $query->where('name', 'admin');
+                })->get();
+                foreach ($admins as $admin) {
+                    $admin->notify(new \App\Notifications\Reparation\ReparationPaid($reparation, $admin->getRoleNames()[0]));
+                }
             } else {
-                return redirect()->route('payment.checkout', ['reparation' => $reparationId])
+                return redirect()->route('reparations.payment', ['reparation' => $reparationId])
                     ->with('error', 'Pembayaran belum berhasil, silakan coba lagi.');
             }
         }
