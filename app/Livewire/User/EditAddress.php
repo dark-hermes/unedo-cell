@@ -3,6 +3,7 @@
 namespace App\Livewire\User;
 
 use App\Models\Address;
+use App\Models\Option;
 use Livewire\Component;
 use Livewire\Attributes\Rule;
 use Livewire\Attributes\Layout;
@@ -33,6 +34,9 @@ class EditAddress extends Component
 
     public $note = '';
     public $searchLocation = '';
+    public $storeCoordinate = null;
+    public $distance = null;
+    public $duration = null;
 
     public function mount(Address $address)
     {
@@ -48,6 +52,12 @@ class EditAddress extends Component
         $this->latitude = $address->latitude;
         $this->longitude = $address->longitude;
         $this->note = $address->note;
+
+        // Get store coordinate
+        $this->storeCoordinate = Option::where('key', 'STORE_COORDINATE')->first();
+
+        // Calculate initial route
+        $this->calculateRoute();
     }
 
     public function setCurrentLocation()
@@ -59,6 +69,63 @@ class EditAddress extends Component
     {
         $this->latitude = $lat;
         $this->longitude = $lng;
+        $this->calculateRoute();
+    }
+
+    public function calculateRoute()
+    {
+        if (!$this->storeCoordinate || !$this->latitude || !$this->longitude) {
+            return;
+        }
+
+        $storeLat = explode(',', $this->storeCoordinate->value)[0];
+        $storeLng = explode(',', $this->storeCoordinate->value)[1];
+
+        // You can use either OSRM (free) or Google Maps Directions API
+        $this->getRouteFromOSRM($storeLat, $storeLng, $this->latitude, $this->longitude);
+
+        // Or if you prefer Google Maps:
+        // $this->getRouteFromGoogleMaps($storeLat, $storeLng, $this->latitude, $this->longitude);
+    }
+
+    protected function getRouteFromOSRM($startLat, $startLng, $endLat, $endLng)
+    {
+        $url = "http://router.project-osrm.org/route/v1/driving/$startLng,$startLat;$endLng,$endLat?overview=full";
+
+        try {
+            $response = file_get_contents($url);
+            $data = json_decode($response, true);
+
+            if ($data && $data['code'] === 'Ok') {
+                $route = $data['routes'][0];
+                $this->distance = round($route['distance'] / 1000, 1); // Convert to km
+                $this->duration = round($route['duration'] / 60); // Convert to minutes
+
+                // Dispatch event to update map with route
+                $this->dispatch('update-route', [
+                    'coordinates' => $route['geometry'],
+                    'distance' => $this->distance,
+                    'duration' => $this->duration
+                ]);
+            }
+        } catch (\Exception $e) {
+            // Handle error
+        }
+    }
+
+    protected function decodePolyline($steps)
+    {
+        $points = [];
+        foreach ($steps as $step) {
+            $points = array_merge($points, $this->decodePolylineToPoints($step['polyline']['points']));
+        }
+        return $points;
+    }
+
+    protected function decodePolylineToPoints($polyline)
+    {
+        // Implement polyline decoding algorithm
+        // (You can find implementations online)
     }
 
     public function save()

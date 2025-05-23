@@ -19,7 +19,7 @@
                             <a href="{{ route('shop.index') }}">Belanja</a>
                         </li>
 
-                        <li class="{{ request()->is('reparation') ? 'active-menu' : '' }}">
+                        <li class="{{ request()->is('reparations') ? 'active-menu' : '' }}">
                             <a href="{{ route('reparations.form') }}">Servis</a>
                         </li>
 

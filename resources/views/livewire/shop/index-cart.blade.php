@@ -172,13 +172,13 @@
 
                                                 @if ($addresses->isEmpty())
                                                     <div class="alert alert-danger mt-2">
-                                                        Anda belum menambahkan alamat pengiriman. Silakan tambahkan alamat
+                                                        Anda belum menambahkan alamat pengiriman. Silakan tambahkan
+                                                        alamat
                                                         terlebih dahulu.
                                                         <br>
                                                         <a href="{{ route('address.create') }}"
                                                             class="text-primary">Tambah Alamat</a>
                                                     </div>
-
                                                 @endif
                                             </div>
                                         @endif
@@ -202,8 +202,14 @@
 
                             <button type="button"
                                 class="flex-c-m stext-101 cl0 size-116 bg3 bor14 hov-btn3 p-lr-15 trans-04 pointer"
-                                wire:click="checkout" @if ($shippingMethod !== 'self_pickup' && empty($selectedAddress)) disabled @endif>
-                                Bayar
+                                wire:click="checkout" wire:loading.attr="disabled"
+                                @if ($shippingMethod !== 'self_pickup' && empty($selectedAddress)) disabled @endif>
+                                <span wire:loading.remove wire:target="checkout">
+                                    Bayar
+                                </span>
+                                <span wire:loading wire:target="checkout">
+                                    <i class="fa fa-spinner fa-spin"></i> Memproses...
+                                </span>
                             </button>
                         </div>
                     </div>
@@ -240,4 +246,9 @@
             });
         </script>
     @endpush
+    <style>
+        .fa-spinner {
+            margin-right: 5px;
+        }
+    </style>
 </div>

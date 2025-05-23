@@ -4,19 +4,31 @@
     </div>
     <div class="page-content">
         <section class="row">
-            <div class="col-12 col-lg-9">
+            <div class="col-12 col-lg-12">
                 <div class="row">
                     <div class="col-6 col-lg-3 col-md-6">
                         @livewire('admin.dashboard.sales-this-week')
                     </div>
                     <!-- Add other stat cards here -->
+                    <div class="col-6 col-lg-3 col-md-6">
+                        @livewire('admin.dashboard.sales-this-week-amount')
+                    </div>
+                    <div class="col-6 col-lg-3 col-md-6">
+                        @livewire('admin.dashboard.reparations-this-week')
+                    </div>
+                    <div class="col-6 col-lg-3 col-md-6">
+                        @livewire('admin.dashboard.products-count')
+                    </div>
+                    {{-- <div class="col-6 col-lg-3 col-md-6">
+                        @livewire('admin.dashboard.users-count')
+                    </div> --}}
                 </div>
 
-                <div class="row">
-                    <div class="col-12">
+                {{-- <div class="row">
+                    <div class="col-6">
                         @livewire('admin.dashboard.monthly-sales-chart')
                     </div>
-                </div>
+                </div> --}}
 
                 <div class="row">
                     <div class="col-12 col-xl-6">
@@ -35,10 +47,6 @@
                         @livewire('admin.dashboard.low-stock-products')
                     </div>
                 </div>
-            </div>
-
-            <div class="col-12 col-lg-3">
-                <!-- Sidebar content -->
             </div>
         </section>
     </div>

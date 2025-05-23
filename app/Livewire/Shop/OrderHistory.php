@@ -70,6 +70,7 @@ class OrderHistory extends Component
                     'quantity' => $order->orderItems()->where('product_id', $productId)->first()->quantity,
                     'reason' => 'sale',
                     'note' => $order->user->name . ' : ' . $order->user->phone . ' - ' . $order->recipient_name . ' : ' . $order->recipient_phone,
+                    'output_date' => now(),
                 ]);
             }
 

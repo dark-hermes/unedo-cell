@@ -1,5 +1,5 @@
 <div>
-    <!-- Page Header -->
+    <!-- Page Header (unchanged) -->
     <div class="page-header">
         <div class="container">
             <div class="row justify-content-between align-items-center">
@@ -43,6 +43,9 @@
                                                 id="btnSearchLocation">
                                                 <i class="bi bi-search"></i> Cari
                                             </button>
+                                        </div>
+                                        <div id="searchResults" class="dropdown-menu w-100" style="display: none;">
+                                            <!-- Search results will appear here -->
                                         </div>
                                     </div>
 
@@ -140,6 +143,8 @@
             document.addEventListener('livewire:init', () => {
                 let map;
                 let marker;
+                let popup;
+                let searchResults = [];
 
                 // Fungsi inisialisasi peta
                 function initMap() {
@@ -165,8 +170,8 @@
                     updateMarker(initialLat, initialLng);
 
                     // Handle klik peta
-                    map.on('click', function(e) {
-                        updateMarker(e.latlng.lat, e.latlng.lng);
+                    map.on('click', async function(e) {
+                        await updateMarker(e.latlng.lat, e.latlng.lng);
                         @this.set('latitude', e.latlng.lat);
                         @this.set('longitude', e.latlng.lng);
                     });
@@ -175,62 +180,234 @@
                     setTimeout(() => map.invalidateSize(), 100);
                 }
 
-                // Fungsi update marker
-                function updateMarker(lat, lng) {
+                // Fungsi untuk mendapatkan informasi alamat dari koordinat
+                async function getAddressInfo(lat, lng) {
+                    try {
+                        const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=18&addressdetails=1`);
+                        const data = await response.json();
+                        
+                        if (data.error) {
+                            console.error('Error getting address:', data.error);
+                            return {
+                                display_name: 'Lokasi tidak dikenal',
+                                address: {}
+                            };
+                        }
+                        
+                        return data;
+                    } catch (error) {
+                        console.error('Error fetching address:', error);
+                        return {
+                            display_name: 'Gagal memuat alamat',
+                            address: {}
+                        };
+                    }
+                }
+
+                // Fungsi untuk membuat konten popup
+                function createPopupContent(addressData) {
+                    const address = addressData.address || {};
+                    return `
+                        <div class="osm-info">
+                            <div class="fw-bold">${address.road || 'Jalan tidak diketahui'} ${address.house_number || ''}</div>
+                            <div>${address.neighbourhood ? address.neighbourhood + ', ' : ''}${address.village || address.suburb || ''}</div>
+                            <div>${address.city_district || ''}${address.city_district && address.city ? ', ' : ''}${address.city || ''}</div>
+                            <div>${address.state || ''}, ${address.postcode || ''}</div>
+                            <div>${address.country || 'Indonesia'}</div>
+                            <hr>
+                            <div class="small text-muted">${addressData.display_name || 'Detail alamat tidak tersedia'}</div>
+                        </div>
+                    `;
+                }
+
+                // Fungsi update marker dengan popup hover
+                async function updateMarker(lat, lng) {
                     if (!map) {
                         console.error('Map not initialized');
                         return;
                     }
 
+                    // Dapatkan info alamat terbaru
+                    const address = await getAddressInfo(lat, lng);
+                    const popupContent = createPopupContent(address);
+
                     if (marker) {
+                        // Update marker position
                         marker.setLatLng([lat, lng]);
+                        // Update popup content
+                        marker.setPopupContent(popupContent);
                     } else {
+                        // Buat marker baru dengan popup
                         marker = L.marker([lat, lng], {
                             draggable: true
                         }).addTo(map);
-                        marker.on('dragend', function(e) {
+                        
+                        // Bind popup yang akan muncul saat hover
+                        marker.bindPopup(popupContent, {
+                            closeOnClick: false,
+                            autoClose: false,
+                            closeButton: false,
+                            className: 'marker-popup'
+                        });
+                        
+                        // Buka popup secara permanen
+                        marker.openPopup();
+                        
+                        // Handle hover untuk popup
+                        marker.on('mouseover', function() {
+                            this.openPopup();
+                        });
+                        
+                        marker.on('mouseout', function() {
+                            // Jangan tutup popup, biarkan tetap terbuka
+                        });
+
+                        // Handle ketika marker dipindahkan
+                        marker.on('dragend', async function(e) {
                             const newPos = e.target.getLatLng();
                             @this.set('latitude', newPos.lat);
                             @this.set('longitude', newPos.lng);
+                            
+                            // Update address info ketika marker dipindahkan
+                            const newAddress = await getAddressInfo(newPos.lat, newPos.lng);
+                            marker.setPopupContent(createPopupContent(newAddress));
+                            
+                            // Update form fields if empty
+                            updateFormFields(newAddress);
                         });
                     }
+                    
+                    // Update form fields if empty
+                    updateFormFields(address);
+                    
+                    // Pusatkan peta ke marker
                     map.setView([lat, lng], map.getZoom());
+                }
+
+                // Fungsi untuk mengupdate field form jika kosong
+                function updateFormFields(addressData) {
+                    const address = addressData.address || {};
+                    
+                    if (!@js($address)) {
+                        const fullAddress = [
+                            address.road ? (address.road + (address.house_number ? ' No. ' + address.house_number : '')) : '',
+                            address.neighbourhood ? 'RT/RW ' + address.neighbourhood : '',
+                            address.village ? 'Kel. ' + address.village : '',
+                            address.city_district ? 'Kec. ' + address.city_district : '',
+                            address.postcode ? 'Kode Pos: ' + address.postcode : ''
+                        ].filter(Boolean).join(', ');
+                        
+                        @this.set('address', fullAddress);
+                    }
+                    
+                    if (!@js($recipient_name) && @js(auth()->user())) {
+                        @this.set('recipient_name', @js(auth()->user()->name));
+                    }
                 }
 
                 // Inisialisasi peta saat komponen siap
                 initMap();
 
-                // Handle pencarian lokasi
+                // Handle pencarian lokasi dengan dropdown hasil
                 document.getElementById('btnSearchLocation')?.addEventListener('click', function() {
                     const query = document.getElementById('searchLocationInput').value.trim();
                     if (!query) return;
 
+                    const resultsContainer = document.getElementById('searchResults');
+                    resultsContainer.innerHTML = '<div class="dropdown-item text-center py-2"><div class="spinner-border spinner-border-sm text-primary"></div> Mencari...</div>';
+                    resultsContainer.style.display = 'block';
+
                     fetch(
-                            `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&countrycodes=id&limit=1`)
+                            `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&countrycodes=id&limit=5`)
                         .then(res => res.json())
                         .then(data => {
+                            resultsContainer.innerHTML = '';
+                            
                             if (data && data.length > 0) {
-                                const lat = parseFloat(data[0].lat);
-                                const lng = parseFloat(data[0].lon);
-                                updateMarker(lat, lng);
-                                @this.set('latitude', lat);
-                                @this.set('longitude', lng);
+                                searchResults = data;
+                                
+                                if (data.length === 1) {
+                                    // Auto-select if only one result
+                                    selectSearchResult(0);
+                                    resultsContainer.style.display = 'none';
+                                } else {
+                                    // Show dropdown with results
+                                    data.forEach((result, index) => {
+                                        const item = document.createElement('a');
+                                        item.className = 'dropdown-item py-2';
+                                        item.href = '#';
+                                        item.innerHTML = `
+                                            <div class="fw-bold">${result.display_name.split(',')[0]}</div>
+                                            <div class="small text-muted">${result.display_name.split(',').slice(1).join(',').trim()}</div>
+                                        `;
+                                        item.addEventListener('click', (e) => {
+                                            e.preventDefault();
+                                            selectSearchResult(index);
+                                            resultsContainer.style.display = 'none';
+                                        });
+                                        resultsContainer.appendChild(item);
+                                    });
+                                }
                             } else {
-                                alert('Lokasi tidak ditemukan');
+                                const item = document.createElement('div');
+                                item.className = 'dropdown-item text-center py-2 text-muted';
+                                item.textContent = 'Lokasi tidak ditemukan';
+                                resultsContainer.appendChild(item);
                             }
+                        })
+                        .catch(error => {
+                            resultsContainer.innerHTML = '';
+                            const item = document.createElement('div');
+                            item.className = 'dropdown-item text-center py-2 text-danger';
+                            item.textContent = 'Error saat mencari lokasi';
+                            resultsContainer.appendChild(item);
+                            console.error('Search error:', error);
                         });
                 });
 
+                // Fungsi untuk memilih hasil pencarian
+                async function selectSearchResult(index) {
+                    const result = searchResults[index];
+                    if (!result) return;
+                    
+                    const lat = parseFloat(result.lat);
+                    const lng = parseFloat(result.lon);
+                    
+                    // Update map and marker
+                    await updateMarker(lat, lng);
+                    
+                    // Update Livewire properties
+                    @this.set('latitude', lat);
+                    @this.set('longitude', lng);
+                    
+                    // Update search input with selected location name
+                    document.getElementById('searchLocationInput').value = result.display_name.split(',')[0];
+                }
+
+                // Hide dropdown when clicking outside
+                document.addEventListener('click', function(e) {
+                    if (!e.target.closest('#searchResults') && !e.target.closest('#btnSearchLocation') && !e.target.closest('#searchLocationInput')) {
+                        document.getElementById('searchResults').style.display = 'none';
+                    }
+                });
+
                 // Handle geolocation request dari Livewire
-                Livewire.on('request-browser-location', () => {
+                Livewire.on('request-browser-location', async () => {
                     if (navigator.geolocation) {
                         navigator.geolocation.getCurrentPosition(
-                            (position) => {
+                            async (position) => {
                                 const lat = position.coords.latitude;
                                 const lng = position.coords.longitude;
-                                updateMarker(lat, lng);
+                                await updateMarker(lat, lng);
                                 @this.set('latitude', lat);
                                 @this.set('longitude', lng);
+                                
+                                // Update search input with approximate location
+                                const address = await getAddressInfo(lat, lng);
+                                document.getElementById('searchLocationInput').value = address.address.road || 
+                                    address.address.neighbourhood || 
+                                    address.address.village || 
+                                    'Lokasi Saya';
                             },
                             (error) => {
                                 console.error('Geolocation error:', error);
@@ -261,7 +438,6 @@
             z-index: 1;
         }
 
-        /* Pastikan container peta memiliki ukuran yang jelas */
         .map-container {
             position: relative;
             min-height: 400px;
@@ -291,6 +467,49 @@
 
         .leaflet-popup-content {
             margin: 0.75rem;
+            min-width: 200px;
+        }
+        
+        /* Search results dropdown styles */
+        #searchResults {
+            max-height: 300px;
+            overflow-y: auto;
+            z-index: 1000;
+            border: 1px solid rgba(0,0,0,.15);
+            box-shadow: 0 0.5rem 1rem rgba(0,0,0,.175);
+        }
+        
+        #searchResults .dropdown-item {
+            white-space: normal;
+            padding: 0.5rem 1rem;
+        }
+        
+        #searchResults .dropdown-item:hover {
+            background-color: #f8f9fa;
+        }
+        
+        #searchResults .dropdown-item .small {
+            font-size: 0.75rem;
+        }
+
+        .marker-popup {
+            bottom: 30px !important;
+            left: -100px !important;
+        }
+        
+        .marker-popup .leaflet-popup-content-wrapper {
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+            padding: 0;
+        }
+        
+        .marker-popup .leaflet-popup-content {
+            margin: 0;
+            padding: 12px;
+        }
+        
+        .marker-popup .leaflet-popup-tip-container {
+            display: none;
         }
     </style>
 </div>

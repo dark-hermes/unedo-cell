@@ -1,6 +1,6 @@
 <div class="card">
     <div class="card-header">
-        <h4>5 Produk Terlaris</h4>
+        <h4>Produk Terlaris</h4>
     </div>
     <div class="card-body">
         <div class="table-responsive">
@@ -8,6 +8,7 @@
                 <thead>
                     <tr>
                         <th>Produk</th>
+                        <th>Kategori</th>
                         <th>Terjual</th>
                     </tr>
                 </thead>
@@ -22,6 +23,7 @@
                                 <p class="font-bold ms-3 mb-0">{{ $product->product->name }}</p>
                             </div>
                         </td>
+                        <td>{{ $product->product->category->name ?? '-' }}</td>
                         <td>{{ number_format($product->total_sold) }}</td>
                     </tr>
                     @endforeach

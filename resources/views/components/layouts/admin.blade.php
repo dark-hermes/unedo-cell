@@ -49,10 +49,11 @@
     </script>
     <script src="{{ asset('vendor/leaflet/leaflet.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     
 
 
-    @vite(['resources/admin/static/js/components/dark.js', 'resources/admin/static/js/components/toast.js', 'resources/admin/static/js/components/sweetalert.js'])
+    @vite(['resources/admin/static/js/components/dark.js', 'resources/admin/static/js/components/toast.js', 'resources/admin/static/js/components/sweetalert.js', 'resources/admin/static/js/pages/dashboard.js'])
     @livewireScripts
     @stack('scripts')
 </body>

@@ -13,9 +13,8 @@
         <div class="mb-4">
             <div class="input-group">
                 <span class="input-group-text"><i class="zmdi zmdi-search"></i></span>
-                <input type="text" class="form-control" 
-                       wire:model.live.debounce.300ms="search" 
-                       placeholder="Cari alamat...">
+                <input type="text" class="form-control" wire:model.live.debounce.300ms="search"
+                    placeholder="Cari alamat...">
             </div>
         </div>
 
@@ -27,41 +26,38 @@
                         <div>
                             <div><strong>{{ $address->name }}</strong></div>
                         </div>
-                        @if($address->is_default)
+                        @if ($address->is_default)
                             <i class="bi bi-check2-circle icon-check"></i>
                         @endif
                     </div>
-                    
+
                     <div class="mt-2"><strong>{{ $address->recipient_name }}</strong></div>
                     <div>{{ $address->phone }}</div>
-                    
+
                     <div class="mt-2">
-                        {{ $address->address }}, 
+                        {{ $address->address }},
                         {{ $address->note }}
                     </div>
-                    
+
                     <div class="mt-3 d-flex justify-content-between align-items-center flex-wrap">
                         <div class="opsi-link text-warning">
-                            @if($address->latitude && $address->longitude)
+                            @if ($address->latitude && $address->longitude)
                                 <i class="bi bi-geo-alt-fill"></i> <strong>Sudah Pinpoint</strong>
                             @endif
-                            
-                            {{-- <a href="#" wire:click.prevent="$dispatch('openModal', { component: 'user.edit-address', arguments: { address: {{ $address->id }} }})">
-                                Ubah Alamat
-                            </a> --}}
 
                             <a href="{{ route('address.edit', $address->id) }}" class="text-warning">
                                 Edit Alamat
                             </a>
-                            
-                            @if(!$address->is_default)
-                                <a href="#" wire:click.prevent="confirmDelete({{ $address->id }})">Hapus</a>
+
+                            @if (!$address->is_default)
+                                <a href="#" onclick="confirmDelete({{ $address->id }})"
+                                    class="text-danger">Hapus</a>
                             @endif
                         </div>
-                        
-                        @if(!$address->is_default)
+
+                        @if (!$address->is_default)
                             <button class="btn btn-warning btn-sm btn-pilih text-white"
-                                    wire:click.prevent="pickDefaultAddress({{ $address->id }})">
+                                wire:click.prevent="pickDefaultAddress({{ $address->id }})">
                                 Pilih
                             </button>
                         @endif
@@ -71,34 +67,58 @@
                 <div class="text-center py-5">
                     <i class="bi bi-map-fill text-muted" style="font-size: 3rem;"></i>
                     <p class="mt-3">Anda belum memiliki alamat</p>
-                    {{-- <button class="btn btn-warning text-white"
-                            wire:click="$dispatch('openModal', { component: 'user.create-address' })">
-                        Tambah Alamat Pertama
-                    </button> --}}
                 </div>
             @endforelse
         </div>
     </div>
 
-    <!-- Delete Confirmation Modal -->
-    {{-- <x-modal wire:model="confirmingDeletion">
-        <x-card title="Hapus Alamat">
-            <p class="text-center">Apakah Anda yakin untuk menghapus alamat ini? Anda tidak dapat mengembalikan alamat yang sudah dihapus.</p>
-
-            <x-slot name="footer">
-                <div class="d-flex justify-content-center gap-3">
-                    <x-button flat label="Batal" wire:click="$toggle('confirmingDeletion')" />
-                    <x-button negative label="Hapus" wire:click="deleteAddress" />
-                </div>
-            </x-slot>
-        </x-card>
-    </x-modal> --}}
-
     @push('scripts')
         <script>
-            document.addEventListener('livewire:load', function() {
-                // Initialize any necessary scripts here
+            document.addEventListener('livewire:init', () => {
+                Livewire.on('swal:confirm', (data) => {
+                    Swal.fire({
+                        title: data.title,
+                        text: data.text,
+                        icon: data.icon,
+                        showCancelButton: data.showCancelButton,
+                        confirmButtonText: data.confirmButtonText,
+                        cancelButtonText: data.cancelButtonText,
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            Livewire.dispatch(data.onConfirmed, {
+                                params: data.params
+                            });
+                        }
+                    });
+                });
+
+                Livewire.on('swal', (data) => {
+                    Swal.fire({
+                        title: data.title,
+                        text: data.text || '',
+                        icon: data.icon,
+                        confirmButtonText: 'OK'
+                    });
+                });
+
             });
+        </script>
+
+        <script>
+            function confirmDelete(addressId) {
+                Swal.fire({
+                    title: 'Hapus Alamat',
+                    text: 'Apakah Anda yakin ingin menghapus alamat ini?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Ya, hapus!',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        @this.call('deleteAddress', addressId);
+                    }
+                });
+            }
         </script>
     @endpush
 </div>

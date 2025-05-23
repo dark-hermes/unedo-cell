@@ -17,7 +17,7 @@ class CreateAddress extends Component
     #[Rule('required|min:3|max:100')]
     public $recipient_name = '';
 
-    #[Rule('required|min:10|max:15')]
+    #[Rule('required|min:10|max:15|regex:/^[0-9\-\(\)\/\+\s]*$/')]
     public $phone = '';
 
     #[Rule('required|min:10')]

@@ -31,7 +31,7 @@ class OrderPaid extends Notification
         $this->itemName = $order->orderItems->first()->name . ' dan ' . ($order->orderItems->count() - 1) . ' barang lainnya';
         $this->paymentMethod = $order->transaction->payment_method;
         $this->paymentStatus = $order->transaction->transaction_status == 'settlement' ? 'Berhasil' : 'Gagal';
-        $this->paymentDate = $order->transaction->transaction_time->format('d-m-Y H:i:s');
+        $this->paymentDate = $order->transaction->transaction_time?->format('d-m-Y H:i:s');
         $this->paymentAmount = 'Rp ' . number_format($order->transaction->amount, 0, ',', '.');
         $this->userRole = $userRole;
         $this->actionUrl = $userRole == 'admin' ? url('/admin/orders/' . $order->id) : url('/orders/history');

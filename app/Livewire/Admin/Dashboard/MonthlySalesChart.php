@@ -8,26 +8,34 @@ use Carbon\Carbon;
 
 class MonthlySalesChart extends Component
 {
-    public function render()
+    public $months = [];
+    public $salesData = [];
+
+    public function mount()
     {
-        $months = [];
-        $salesData = [];
+        $this->prepareChartData();
+    }
+
+    protected function prepareChartData()
+    {
+        $this->months = [];
+        $this->salesData = [];
         
         for ($i = 0; $i < 12; $i++) {
             $month = Carbon::now()->subMonths(11)->addMonths($i);
-            $months[] = $month->format('M Y');
+            $this->months[] = $month->format('M Y');
             
-            $start = $month->startOfMonth();
-            $end = $month->endOfMonth();
+            $start = $month->copy()->startOfMonth();
+            $end = $month->copy()->endOfMonth();
             
-            $salesData[] = StockOutput::where('reason', 'sale')
+            $this->salesData[] = StockOutput::where('reason', 'sale')
                 ->whereBetween('output_date', [$start, $end])
                 ->sum('quantity');
         }
-        
-        return view('livewire.admin.dashboard.monthly-sales-chart', [
-            'months' => $months,
-            'salesData' => $salesData
-        ]);
+    }
+
+    public function render()
+    {
+        return view('livewire.admin.dashboard.monthly-sales-chart');
     }
 }

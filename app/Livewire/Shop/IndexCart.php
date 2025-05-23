@@ -19,6 +19,7 @@ class IndexCart extends Component
     public $totalPrice = 0;
     public $shippingMethod = 'self_pickup';
     public $selectedAddress = null;
+    public $isCheckingOut = false;
 
     protected $listeners = ['refreshCart' => 'refresh'];
 
@@ -111,7 +112,8 @@ class IndexCart extends Component
             return;
         }
 
-        // Proses checkout
+        $this->isCheckingOut = true; // Aktifkan loading state
+
         try {
             // Logika checkout disini
             logger()->info('Checkout processed', [
@@ -150,7 +152,7 @@ class IndexCart extends Component
             // Send notification to admin
             $telegramService = new TelegramNotificationService();
             $telegramService->sendOrderNotification($order);
-            
+
             $admins = User::whereHas('roles', function ($query) {
                 $query->where('name', 'admin');
             })->get();
@@ -164,9 +166,12 @@ class IndexCart extends Component
                 'icon' => 'success'
             ]);
 
+            $this->isCheckingOut = false; // Matikan loading state
+
             // wait 3 seconds and redirect to order history
             $this->redirect(route('orders.history'));
         } catch (\Exception $e) {
+            $this->isCheckingOut = false; // Matikan loading state jika error
             logger()->error('Checkout error: ' . $e->getMessage());
             $this->dispatch('swal', [
                 'title' => 'Error',

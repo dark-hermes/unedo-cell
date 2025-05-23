@@ -62,6 +62,8 @@
     <script src="{{ asset('vendor/bootstrap/js/bootstrap.min.js') }}"></script>
     <!--===============================================================================================-->
     <script src="{{ asset('vendor/select2/select2.min.js') }}"></script>
+    <!-- Tambahkan sebelum script peta -->
+    <script src="https://unpkg.com/leaflet-polylineencoded@1.0.1/Polyline.encoded.js"></script>
 
     <script>
         $(".js-select2").each(function() {

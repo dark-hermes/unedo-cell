@@ -12,6 +12,7 @@ class NewOrders extends Component
         $orders = Order::with(['user', 'orderItems.product'])
             ->latest()
             ->take(5)
+            ->where('order_status', '==', 'pending')
             ->get();
             
         return view('livewire.admin.dashboard.new-orders', [

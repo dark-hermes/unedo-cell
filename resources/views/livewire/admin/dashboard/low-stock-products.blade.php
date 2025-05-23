@@ -8,8 +8,8 @@
                 <thead>
                     <tr>
                         <th>Produk</th>
-                        <th>Stok</th>
                         <th>Minimal Stok</th>
+                        <th>Stok</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -23,8 +23,8 @@
                                 <p class="font-bold ms-3 mb-0">{{ $product->name }}</p>
                             </div>
                         </td>
-                        <td class="text-danger">{{ $product->stock }}</td>
                         <td>{{ $product->min_stock }}</td>
+                        <td><p class="text-danger">{{ $product->stock }}</p></td>
                     </tr>
                     @endforeach
                 </tbody>

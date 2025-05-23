@@ -35,6 +35,34 @@ class IndexAddress extends Component
         ]);
     }
 
+    public function deleteAddress($addressId)
+    {
+        $address = Address::find($addressId);
+        
+        // Prevent deleting default address
+        if ($address && $address->is_default) {
+            $this->dispatch('swal', [
+                'title' => 'Tidak dapat menghapus alamat utama',
+                'text' => 'Anda tidak dapat menghapus alamat utama. Silakan pilih alamat lain sebagai alamat utama terlebih dahulu.',
+                'icon' => 'error',
+            ]);
+            return;
+        }
+
+        if ($address) {
+            $address->delete();
+            $this->dispatch('swal', [
+                'title' => 'Alamat berhasil dihapus!',
+                'icon' => 'success',
+            ]);
+        } else {
+            $this->dispatch('swal', [
+                'title' => 'Alamat tidak ditemukan!',
+                'icon' => 'error',
+            ]);
+        }
+    }
+
     public function rules()
     {
         return [

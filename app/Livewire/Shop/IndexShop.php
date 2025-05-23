@@ -18,15 +18,9 @@ class IndexShop extends Component
     #[Url]
     public $search = '';
 
-    public function updatingSearch()
-    {
-        $this->resetPage();
-    }
-
     public function updatedCategoryFilter($value)
     {
         $this->categoryFilter = $value;
-        $this->resetPage();
     }
 
 

@@ -22,11 +22,19 @@ class GoogleAuthController extends Controller
             $user = User::where('google_id', $googleUser->getId())->first();
             if (!$user) {
                 // If the user does not exist, create a new user
+                $imageUrl = $googleUser->getAvatar();
+                $imagePath = storage_path('app/public/profile/' . $googleUser->getId() . '.jpg');
+
+                if (!file_exists($imagePath)) {
+                    file_put_contents($imagePath, file_get_contents($imageUrl));
+                }
+
                 $user = User::create([
                     'name' => $googleUser->getName(),
                     'email' => $googleUser->getEmail(),
                     'google_id' => $googleUser->getId(),
-                    'image' => $googleUser->getAvatar()
+                    'image' => 'profile/' . $googleUser->getId() . '.jpg',
+                    
                 ]);
                 $user->assignRole('user'); // Assign a default role
 
