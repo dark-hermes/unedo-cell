@@ -17,7 +17,8 @@ class CreateProduct extends Component
     public $name;
     public $image;
     public $description;
-    public $price = 0;
+    public $sale_price;
+    public $buy_price;
     public $discount = 0;
     public $min_stock = 0;
     public $sku;
@@ -27,7 +28,8 @@ class CreateProduct extends Component
         'name' => 'required|string|max:255|unique:products,name',
         'image' => 'nullable|image|max:2048',
         'description' => 'nullable|string',
-        'price' => 'required|numeric|min:0',
+        'sale_price' => 'required|numeric|min:0',
+        'buy_price' => 'required|numeric|min:0',
         'discount' => 'nullable|integer|min:0|max:100',
         'min_stock' => 'nullable|integer|min:0',
     ];
@@ -55,7 +57,8 @@ class CreateProduct extends Component
                 'name' => $this->name,
                 'image' => $imagePath,
                 'description' => $this->description,
-                'price' => $this->price,
+                'sale_price' => $this->sale_price,
+                'buy_price' => $this->buy_price,
                 'sku' => $sku,
                 'discount' => $this->discount,
                 'min_stock' => $this->min_stock,
@@ -75,7 +78,7 @@ class CreateProduct extends Component
             ]);
         }
     }
-    
+
     public function render()
     {
         $categories = ProductCategory::orderBy('name')->get();

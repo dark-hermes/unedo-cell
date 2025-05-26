@@ -70,7 +70,8 @@
                 </div>
 
                 <div class="text-center mt-4">
-                    <p class="text-muted">Don't have an account? <a href="#" class="text-primary">Sign up</a></p>
+                    {{-- <p class="text-muted">Don't have an account? <a href="{{ route('register') }}"
+                            class="text-primary">Sign up</a></p> --}}
                     <a href="index.html" class="text-primary">← Back to home</a>
                 </div>
             </div>

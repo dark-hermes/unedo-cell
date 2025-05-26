@@ -48,7 +48,7 @@ class Profile extends Component
         return [
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255|unique:users,email,' . $this->user->id,
-            'phone' => 'nullable|string|max:20',
+            'phone' => 'nullable|string|max:20|regex:/^\+?[0-9\s\-()]+$/|unique:users,phone,' . $this->user->id,
             'newImage' => 'nullable|image|max:2048',
         ];
     }

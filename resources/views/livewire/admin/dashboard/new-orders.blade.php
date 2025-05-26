@@ -20,7 +20,7 @@
                                     <div class="d-flex align-items-center">
                                         <div class="avatar avatar-md">
                                             <img
-                                                src="{{ $order->user->avatar ?? 'https://ui-avatars.com/api/?name=' . urlencode($order->user->name) . '&background=random' }}" />
+                                                src="{{ $order->user->image_url }}"/>
                                         </div>
                                         <p class="font-bold ms-3 mb-0">{{ $order->user->name }}</p>
                                     </div>

@@ -71,15 +71,15 @@
                 </h4>
 
                 <p class="stext-107 cl7 size-201">
-                    Ada pertanyaan? Anda bisa menghubungi kami lewat nomor <br> (+62) 813 6001 0813 <br> atau media sosial kami di bawah ini
+                    Ada pertanyaan? Anda bisa menghubungi kami lewat nomor <br> {{ $store_phone->value }} <br> atau media sosial kami di bawah ini
                 </p>
 
                 <div class="p-t-27">
-                    <a href="https://www.facebook.com/share/16KwuiM15q/" class="fs-18 cl7 hov-cl1 trans-04 m-r-16">
+                    <a class="fs-18 cl7 hov-cl1 trans-04 m-r-16" href="{{ $store_facebook->value }}">
                         <i class="fa fa-facebook"></i>
                     </a>
 
-                    <a href="https://www.instagram.com/unedocell?igsh=MXM5a2h3bzg4c3Vzag==" class="fs-18 cl7 hov-cl1 trans-04 m-r-16">
+                    <a class="fs-18 cl7 hov-cl1 trans-04 m-r-16" href="{{ $store_instagram->value }}">
                         <i class="fa fa-instagram"></i>
                     </a>
 
@@ -93,14 +93,14 @@
 
                 <form>
                     <p class="stext-107 cl7 size-201">
-                        Jl. Diponegoro, Simpang 3, Sibarani Sitangkola, Kec. Laguboti, Kab. Toba
+                        {{ $store_address->value }}
                     </p>
                 </form>
             </div>
         </div>
 
         <div class="p-t-40">
-            <div class="flex-c-m flex-w p-b-18">
+            {{-- <div class="flex-c-m flex-w p-b-18">
                 <a href="#" class="m-all-1">
                     <img src="{{ asset('images/icons/icon-pay-01.png') }}" alt="ICON-PAY">
                 </a>
@@ -120,7 +120,7 @@
                 <a href="#" class="m-all-1">
                     <img src="{{ asset('images/icons/icon-pay-05.png') }}" alt="ICON-PAY">
                 </a>
-            </div>
+            </div> --}}
 
             <p class="stext-107 cl6 txt-center">
                 <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->

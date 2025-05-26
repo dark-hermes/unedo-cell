@@ -6,7 +6,7 @@
     <section class="section">
         <div class="card">
             <div class="card-body">
-                <form wire:submit.prevent="update">
+                <form enctype="multipart/form-data">
                     <div class="form-group">
                         <label for="category_id">Kategori</label>
                         <select wire:model.defer="category_id" id="category_id" class="form-control @error('category_id') is-invalid @enderror">
@@ -99,7 +99,7 @@
                     </div>
 
                     <div class="button-group mt-4">
-                        <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+                        <button type="submit" class="btn btn-primary" wire:click.prevent="update">Simpan Perubahan</button>
                         <a href="{{ route('admin.products.index') }}" class="btn btn-secondary">Kembali</a>
                     </div>
                 </form>

@@ -29,7 +29,7 @@
 
                         @role('admin')
                             <li class="{{ request()->is('admin') ? 'active-menu' : '' }}">
-                                <a href="{{ route('admin.home-contents.index') }}">Admin</a>
+                                <a href="{{ route('admin.dashboard') }}">Admin</a>
                             </li>
                         @endrole
                     </ul>

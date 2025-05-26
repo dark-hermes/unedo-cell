@@ -6,7 +6,7 @@
     <section class="section">
         <div class="card">
             <div class="card-body">
-                <form wire:submit.prevent="store">
+                <form>
                     <div class="form-group">
                         <label for="category_id">Kategori</label>
                         <select wire:model.defer="category_id" id="category_id" class="form-control @error('category_id') is-invalid @enderror">
@@ -24,10 +24,22 @@
                         @error('name')<div class="invalid-feedback">{{ $message }}</div>@enderror
                     </div>
 
-                    <div class="form-group">
+                    {{-- <div class="form-group">
                         <label for="price">Harga</label>
                         <input wire:model.defer="price" id="price" type="number" step="0.01" class="form-control @error('price') is-invalid @enderror">
                         @error('price')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                    </div> --}}
+
+                    <div class="form-group">
+                        <label for="sale_price">Harga Jual</label>
+                        <input wire:model.defer="sale_price" id="sale_price" type="number" step="0.01" class="form-control @error('sale_price') is-invalid @enderror">
+                        @error('sale_price')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                    </div>
+
+                    <div class="form-group">
+                        <label for="buy_price">Harga Beli</label>
+                        <input wire:model.defer="buy_price" id="buy_price" type="number" step="0.01" class="form-control @error('buy_price') is-invalid @enderror">
+                        @error('buy_price')<div class="invalid-feedback">{{ $message }}</div>@enderror
                     </div>
 
                     <div class="form-group">
@@ -60,7 +72,7 @@
                     </div>
 
                     <div class="button-group mt-4">
-                        <button type="submit" class="btn btn-primary">Simpan</button>
+                        <button type="submit" class="btn btn-primary" wire:click.prevent="store">Simpan</button>
                         <a href="{{ route('admin.products.index') }}" class="btn btn-secondary">Kembali</a>
                     </div>
                 </form>

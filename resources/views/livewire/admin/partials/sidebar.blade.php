@@ -46,7 +46,7 @@
                 <x-sidebar-item href="{{ route('admin.dashboard') }}" icon="bi bi-speedometer" label="Dashboard"
                     active="{{ request()->is('admin/dashboard') }}" />
 
-                <x-sidebar-item href="{{ route('admin.home-contents.index') }}" icon="bi bi-speedometer"
+                <x-sidebar-item href="{{ route('admin.home-contents.index') }}" icon="bi bi-house"
                     label="Konten Beranda" active="{{ request()->is('admin/home-contents') }}" />
                 <x-sidebar-item href="{{ route('admin.options.index') }}" icon="bi bi-gear"
                     label="Pengaturan Umum" active="{{ request()->is('admin/options') }}" />

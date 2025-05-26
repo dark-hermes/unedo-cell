@@ -19,16 +19,13 @@
                     <div class="col-6 col-lg-3 col-md-6">
                         @livewire('admin.dashboard.products-count')
                     </div>
-                    {{-- <div class="col-6 col-lg-3 col-md-6">
-                        @livewire('admin.dashboard.users-count')
-                    </div> --}}
                 </div>
 
-                {{-- <div class="row">
-                    <div class="col-6">
-                        @livewire('admin.dashboard.monthly-sales-chart')
+                <div class="row">
+                    <div class="col-12">
+                        @livewire('admin.dashboard.users-location')
                     </div>
-                </div> --}}
+                </div>
 
                 <div class="row">
                     <div class="col-12 col-xl-6">
