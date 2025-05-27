@@ -51,7 +51,7 @@ class UsersLocation extends Component
 
     public function search()
     {
-        $query = Order::where('order_status', 'completed')
+        $query = Order::where('order_status', '!=', 'pending')
             ->where(function ($q) {
                 $q->where('address', 'like', '%' . $this->searchQuery . '%')
                     ->orWhere('recipient_name', 'like', '%' . $this->searchQuery . '%');

@@ -210,7 +210,7 @@
                     // Buat marker toko dengan ikon khusus
                     storeMarker = L.marker([storeLat, storeLng], {
                         icon: L.icon({
-                            iconUrl: 'https://cdn-icons-png.flaticon.com/512/2776/2776067.png', // Icon toko
+                            iconUrl: '{{ asset('images/icons/pop-up-shop.png') }}',
                             iconSize: [32, 32],
                             iconAnchor: [16, 32],
                             popupAnchor: [0, -32]
@@ -489,15 +489,16 @@
                     // Add store marker if not exists
                     if (!window.storeMarker) {
                         const storeLocation = @js($this->storeCoordinate->value);
-                        window.storeMarker = L.marker([storeLocation.split(',')[0], storeLocation.split(',')[1]], {
-                            icon: L.icon({
-                                iconUrl: 'https://cdn-icons-png.flaticon.com/512/2776/2776067.png',
-                                iconSize: [32, 32],
-                                iconAnchor: [16, 32],
-                                popupAnchor: [0, -32]
-                            }),
-                            draggable: false
-                        }).addTo(map);
+                        window.storeMarker = L.marker([storeLocation.split(',')[0], storeLocation.split(',')[
+                            1]], {
+                                icon: L.icon({
+                                    iconUrl: '{{ asset('images/icons/pop-up-shop.png') }}',
+                                    iconSize: [32, 32],
+                                    iconAnchor: [16, 32],
+                                    popupAnchor: [0, -32]
+                                }),
+                                draggable: false
+                            }).addTo(map);
 
                         window.storeMarker.bindPopup(`
                 <div class="osm-info">
@@ -631,35 +632,98 @@
                 });
 
                 // Handle geolocation request dari Livewire
+                // Handle geolocation request from Livewire
                 Livewire.on('request-browser-location', async () => {
                     if (navigator.geolocation) {
+                        const options = {
+                            enableHighAccuracy: true, // Try to get the most accurate position
+                            timeout: 15000, // 15 seconds timeout
+                            maximumAge: 0 // Don't use cached position
+                        };
+
+                        const showError = (error) => {
+                            console.error('Geolocation error:', error);
+                            let message = 'Gagal mendapatkan lokasi Anda';
+
+                            switch (error.code) {
+                                case error.PERMISSION_DENIED:
+                                    message =
+                                        'Akses geolokasi ditolak. Mohon izinkan akses lokasi di pengaturan browser Anda.';
+                                    break;
+                                case error.POSITION_UNAVAILABLE:
+                                    message = 'Informasi lokasi tidak tersedia.';
+                                    break;
+                                case error.TIMEOUT:
+                                    message =
+                                        'Waktu pencarian lokasi habis. Pastikan Anda memiliki koneksi internet yang baik.';
+                                    break;
+                                default:
+                                    message = 'Terjadi kesalahan saat mengambil lokasi.';
+                            }
+
+                            // Show user-friendly error message
+                            const errorElement = document.createElement('div');
+                            errorElement.className = 'alert alert-danger mt-2 mb-0';
+                            errorElement.innerHTML =
+                                `<i class="bi bi-exclamation-triangle"></i> ${message}`;
+
+                            const mapContainer = document.querySelector('.map-container');
+                            mapContainer.insertBefore(errorElement, mapContainer.firstChild);
+
+                            // Remove error after 5 seconds
+                            setTimeout(() => {
+                                errorElement.remove();
+                            }, 5000);
+                        };
+
                         navigator.geolocation.getCurrentPosition(
                             async (position) => {
                                     const lat = position.coords.latitude;
                                     const lng = position.coords.longitude;
-                                    await updateMarker(lat, lng);
-                                    @this.set('latitude', lat);
-                                    @this.set('longitude', lng);
 
-                                    // Update search input with approximate location
-                                    const address = await getAddressInfo(lat, lng);
-                                    document.getElementById('searchLocationInput').value = address
-                                        .address.road ||
-                                        address.address.neighbourhood ||
-                                        address.address.village ||
-                                        'Lokasi Saya';
+                                    // Update UI to show we're processing
+                                    const processingElement = document.createElement('div');
+                                    processingElement.className = 'alert alert-info mt-2 mb-0';
+                                    processingElement.innerHTML =
+                                        '<i class="bi bi-gear"></i> Memproses lokasi Anda...';
+
+                                    const mapContainer = document.querySelector('.map-container');
+                                    mapContainer.insertBefore(processingElement, mapContainer
+                                        .firstChild);
+
+                                    try {
+                                        await updateMarker(lat, lng);
+                                        @this.set('latitude', lat);
+                                        @this.set('longitude', lng);
+
+                                        // Update search input with approximate location
+                                        const address = await getAddressInfo(lat, lng);
+                                        document.getElementById('searchLocationInput').value =
+                                            address.address.road ||
+                                            address.address.neighbourhood ||
+                                            address.address.village ||
+                                            'Lokasi Saya';
+
+                                        processingElement.remove();
+                                    } catch (error) {
+                                        processingElement.remove();
+                                        showError({
+                                            code: 0,
+                                            message: 'Gagal memproses lokasi'
+                                        });
+                                    }
                                 },
-                                (error) => {
-                                    console.error('Geolocation error:', error);
-                                    alert('Gagal mendapatkan lokasi: ' + error.message);
-                                }, {
-                                    enableHighAccuracy: true,
-                                    timeout: 5000,
-                                    maximumAge: 0
-                                }
+                                showError,
+                                options
                         );
                     } else {
-                        alert('Browser Anda tidak mendukung geolokasi');
+                        const errorElement = document.createElement('div');
+                        errorElement.className = 'alert alert-danger mt-2 mb-0';
+                        errorElement.innerHTML =
+                            '<i class="bi bi-exclamation-triangle"></i> Browser Anda tidak mendukung geolokasi';
+
+                        const mapContainer = document.querySelector('.map-container');
+                        mapContainer.insertBefore(errorElement, mapContainer.firstChild);
                     }
                 });
             });
